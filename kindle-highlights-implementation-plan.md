@@ -285,13 +285,13 @@ Gray:    #6B7280
 4. [x] Implement `ImportService` clippings parser
 5. [x] Write unit tests for parser edge cases (18 tests)
 
-### Phase 2: Core UI
-6. [ ] Build `ContentView` with NavigationSplitView
-7. [ ] Implement `BookListView` and `BookRowView`
-8. [ ] Implement `HighlightListView` and `HighlightRowView`
-9. [ ] Wire up book selection → highlight display
-10. [ ] Add Import button with file picker
-11. [ ] Test full import → display flow
+### Phase 2: Core UI ✅
+6. [x] Build `ContentView` with NavigationSplitView
+7. [x] Implement `BookListView` and `BookRowView`
+8. [x] Implement `HighlightListView` and `HighlightRowView`
+9. [x] Wire up book selection → highlight display
+10. [x] Add Import button with file picker
+11. [x] Test full import → display flow
 
 ### Phase 3: Features
 12. [ ] Add favorite toggle functionality
@@ -310,7 +310,7 @@ Gray:    #6B7280
 21. [ ] Add keyboard shortcuts
 22. [ ] Implement drag-drop import
 23. [ ] Add export to Markdown
-24. [ ] Empty states and onboarding
+24. [x] Empty states and onboarding
 25. [ ] App icon and final UI polish
 
 ---
