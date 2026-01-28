@@ -339,3 +339,7 @@ Gray:    #6B7280
 - [ ] Obsidian/Markdown vault sync
 - [ ] Book cover images (fetch from Open Library API)
 - [ ] Reading statistics (highlights per month, etc.)
+- [ ] Search improvements:
+  - [ ] Partial/prefix matching (e.g., "boat" matches "boats")
+  - [ ] Search book titles and authors, not just highlight content
+  - [ ] Highlight matched terms in search results
