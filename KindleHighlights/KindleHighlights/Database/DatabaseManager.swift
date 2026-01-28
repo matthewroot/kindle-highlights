@@ -198,21 +198,21 @@ class DatabaseManager: ObservableObject {
 
         let query = Schema.highlights
             .join(Schema.books, on: Schema.highlights[Schema.Highlights.bookId] == Schema.books[Schema.Books.id])
-            .filter(Schema.Highlights.isFavorite == true)
-            .order(Schema.Highlights.dateHighlighted.desc)
+            .filter(Schema.highlights[Schema.Highlights.isFavorite] == true)
+            .order(Schema.highlights[Schema.Highlights.dateHighlighted].desc)
 
         return try db.prepare(query).map { row in
             var highlight = Highlight(
-                id: row[Schema.Highlights.id],
-                bookId: row[Schema.Highlights.bookId],
-                content: row[Schema.Highlights.content],
-                location: row[Schema.Highlights.location],
-                dateHighlighted: row[Schema.Highlights.dateHighlighted],
-                dateImported: row[Schema.Highlights.dateImported],
-                isFavorite: row[Schema.Highlights.isFavorite],
-                contentHash: row[Schema.Highlights.contentHash]
+                id: row[Schema.highlights[Schema.Highlights.id]],
+                bookId: row[Schema.highlights[Schema.Highlights.bookId]],
+                content: row[Schema.highlights[Schema.Highlights.content]],
+                location: row[Schema.highlights[Schema.Highlights.location]],
+                dateHighlighted: row[Schema.highlights[Schema.Highlights.dateHighlighted]],
+                dateImported: row[Schema.highlights[Schema.Highlights.dateImported]],
+                isFavorite: row[Schema.highlights[Schema.Highlights.isFavorite]],
+                contentHash: row[Schema.highlights[Schema.Highlights.contentHash]]
             )
-            highlight.bookTitle = row[Schema.Books.title]
+            highlight.bookTitle = row[Schema.books[Schema.Books.title]]
             return highlight
         }
     }
