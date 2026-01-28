@@ -278,12 +278,12 @@ Gray:    #6B7280
 
 ## Build Order
 
-### Phase 1: Data Layer
-1. [ ] Create Xcode project with SwiftUI lifecycle
-2. [ ] Implement `DatabaseManager` with SQLite.swift or raw SQLite3
-3. [ ] Create schema initialization and migration logic
-4. [ ] Implement `ImportService` clippings parser
-5. [ ] Write unit tests for parser edge cases
+### Phase 1: Data Layer ✅
+1. [x] Create Xcode project with SwiftUI lifecycle
+2. [x] Implement `DatabaseManager` with SQLite.swift
+3. [x] Create schema initialization and migration logic
+4. [x] Implement `ImportService` clippings parser
+5. [x] Write unit tests for parser edge cases (18 tests)
 
 ### Phase 2: Core UI
 6. [ ] Build `ContentView` with NavigationSplitView
