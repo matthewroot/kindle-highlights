@@ -92,6 +92,8 @@ struct ContentView: View {
                 FavoritesListView()
             case .book(let book):
                 HighlightListView(book: book)
+            case .tag(let tag):
+                TagHighlightsView(tag: tag)
             }
         } else {
             EmptyStateView(

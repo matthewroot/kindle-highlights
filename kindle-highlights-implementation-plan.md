@@ -299,12 +299,12 @@ Gray:    #6B7280
 14. [x] Build full-text search with FTS5
 15. [x] Create `SearchResultsView`
 
-### Phase 4: Tags
-16. [ ] Implement `Tag` model and CRUD in DatabaseManager
-17. [ ] Build `TagManagerView` for Preferences
-18. [ ] Create `TagChipView` and `TagPickerView`
-19. [ ] Wire up tag assignment to highlights
-20. [ ] Add tag filtering
+### Phase 4: Tags ✅
+16. [x] Implement `Tag` model and CRUD in DatabaseManager
+17. [x] Build `TagManagerView` for Preferences
+18. [x] Create `TagChipView` and `TagPickerView`
+19. [x] Wire up tag assignment to highlights
+20. [x] Add tag filtering
 
 ### Phase 5: Polish
 21. [ ] Add keyboard shortcuts

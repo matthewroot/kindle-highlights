@@ -27,6 +27,10 @@
 		A10001015 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011015 /* SidebarSelection.swift */; };
 		A10001016 /* FavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011016 /* FavoritesListView.swift */; };
 		A10001017 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011017 /* SearchResultsView.swift */; };
+		A10001018 /* TagChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011018 /* TagChipView.swift */; };
+		A10001019 /* TagPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011019 /* TagPickerView.swift */; };
+		A1000101A /* TagManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101A /* TagManagerView.swift */; };
+		A1000101B /* TagHighlightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101B /* TagHighlightsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +66,10 @@
 		A10011015 /* SidebarSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSelection.swift; sourceTree = "<group>"; };
 		A10011016 /* FavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListView.swift; sourceTree = "<group>"; };
 		A10011017 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
+		A10011018 /* TagChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagChipView.swift; sourceTree = "<group>"; };
+		A10011019 /* TagPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPickerView.swift; sourceTree = "<group>"; };
+		A1001101A /* TagManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManagerView.swift; sourceTree = "<group>"; };
+		A1001101B /* TagHighlightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHighlightsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +169,7 @@
 				A1007100C /* Detail */,
 				A1007100D /* Components */,
 				A1007100E /* Search */,
+				A1007100F /* Tags */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,6 +189,7 @@
 				A10011016 /* FavoritesListView.swift */,
 				A10011012 /* HighlightRowView.swift */,
 				A10011013 /* HighlightListView.swift */,
+				A1001101B /* TagHighlightsView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -198,6 +208,16 @@
 				A10011017 /* SearchResultsView.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		A1007100F /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				A10011018 /* TagChipView.swift */,
+				A10011019 /* TagPickerView.swift */,
+				A1001101A /* TagManagerView.swift */,
+			);
+			path = Tags;
 			sourceTree = "<group>";
 		};
 		A10071009 /* ViewModels */ = {
@@ -326,6 +346,10 @@
 				A10001015 /* SidebarSelection.swift in Sources */,
 				A10001016 /* FavoritesListView.swift in Sources */,
 				A10001017 /* SearchResultsView.swift in Sources */,
+				A10001018 /* TagChipView.swift in Sources */,
+				A10001019 /* TagPickerView.swift in Sources */,
+				A1000101A /* TagManagerView.swift in Sources */,
+				A1000101B /* TagHighlightsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

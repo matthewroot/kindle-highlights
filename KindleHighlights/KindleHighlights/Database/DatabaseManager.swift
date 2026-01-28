@@ -287,6 +287,16 @@ class DatabaseManager: ObservableObject {
         try db.run(tag.delete())
     }
 
+    func updateTag(id: Int64, name: String, color: String) throws {
+        guard let db = db else { return }
+
+        let tag = Schema.tags.filter(Schema.Tags.id == id)
+        try db.run(tag.update(
+            Schema.Tags.name <- name,
+            Schema.Tags.color <- color
+        ))
+    }
+
     func addTag(_ tagId: Int64, toHighlight highlightId: Int64) throws {
         guard let db = db else { return }
 
@@ -319,6 +329,31 @@ class DatabaseManager: ObservableObject {
                 name: row[Schema.Tags.name],
                 color: row[Schema.Tags.color]
             )
+        }
+    }
+
+    func getHighlights(forTag tagId: Int64) throws -> [Highlight] {
+        guard let db = db else { return [] }
+
+        let query = Schema.highlights
+            .join(Schema.highlightTags, on: Schema.highlights[Schema.Highlights.id] == Schema.highlightTags[Schema.HighlightTags.highlightId])
+            .join(Schema.books, on: Schema.highlights[Schema.Highlights.bookId] == Schema.books[Schema.Books.id])
+            .filter(Schema.highlightTags[Schema.HighlightTags.tagId] == tagId)
+            .order(Schema.highlights[Schema.Highlights.dateHighlighted].desc)
+
+        return try db.prepare(query).map { row in
+            var highlight = Highlight(
+                id: row[Schema.highlights[Schema.Highlights.id]],
+                bookId: row[Schema.highlights[Schema.Highlights.bookId]],
+                content: row[Schema.highlights[Schema.Highlights.content]],
+                location: row[Schema.highlights[Schema.Highlights.location]],
+                dateHighlighted: row[Schema.highlights[Schema.Highlights.dateHighlighted]],
+                dateImported: row[Schema.highlights[Schema.Highlights.dateImported]],
+                isFavorite: row[Schema.highlights[Schema.Highlights.isFavorite]],
+                contentHash: row[Schema.highlights[Schema.Highlights.contentHash]]
+            )
+            highlight.bookTitle = row[Schema.books[Schema.Books.title]]
+            return highlight
         }
     }
 

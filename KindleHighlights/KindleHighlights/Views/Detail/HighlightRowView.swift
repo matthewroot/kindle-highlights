@@ -1,10 +1,15 @@
 import SwiftUI
 
 struct HighlightRowView: View {
+    @EnvironmentObject var databaseManager: DatabaseManager
     let highlight: Highlight
     let onToggleFavorite: () -> Void
+    var onTagsChanged: (() -> Void)?
+    var showBookTitle: Bool = false
 
     @State private var isExpanded = false
+    @State private var showingTagPicker = false
+    @State private var currentTags: [Tag] = []
 
     private var shouldTruncate: Bool {
         highlight.content.count > 300
@@ -27,6 +32,13 @@ struct HighlightRowView: View {
                 .buttonStyle(.plain)
 
                 VStack(alignment: .leading, spacing: 6) {
+                    if showBookTitle, let bookTitle = highlight.bookTitle {
+                        Text(bookTitle)
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.secondary)
+                    }
+
                     Text(displayContent)
                         .font(.body)
                         .textSelection(.enabled)
@@ -54,10 +66,47 @@ struct HighlightRowView: View {
                     }
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                    // Tags row
+                    HStack(spacing: 6) {
+                        ForEach(currentTags) { tag in
+                            TagChipView(tag: tag)
+                        }
+
+                        Button {
+                            showingTagPicker = true
+                        } label: {
+                            Image(systemName: "plus.circle")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .popover(isPresented: $showingTagPicker) {
+                            TagPickerView(
+                                highlightId: highlight.id,
+                                currentTags: currentTags,
+                                onTagsChanged: {
+                                    loadTags()
+                                    onTagsChanged?()
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }
         .padding(.vertical, 8)
+        .onAppear {
+            loadTags()
+        }
+    }
+
+    private func loadTags() {
+        do {
+            currentTags = try databaseManager.getTags(forHighlight: highlight.id)
+        } catch {
+            currentTags = []
+        }
     }
 }
 
@@ -91,5 +140,6 @@ struct HighlightRowView: View {
             onToggleFavorite: {}
         )
     }
+    .environmentObject(DatabaseManager())
     .frame(width: 500)
 }

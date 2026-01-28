@@ -27,10 +27,11 @@ struct SearchResultsView: View {
                 }
             } else {
                 List(results) { highlight in
-                    SearchResultRowView(
+                    HighlightRowView(
                         highlight: highlight,
-                        searchQuery: searchQuery,
-                        onToggleFavorite: { onToggleFavorite(highlight) }
+                        onToggleFavorite: { onToggleFavorite(highlight) },
+                        onTagsChanged: { performSearchSync() },
+                        showBookTitle: true
                     )
                 }
                 .listStyle(.plain)
@@ -60,74 +61,17 @@ struct SearchResultsView: View {
 
         isSearching = false
     }
-}
 
-struct SearchResultRowView: View {
-    let highlight: Highlight
-    let searchQuery: String
-    let onToggleFavorite: () -> Void
-
-    @State private var isExpanded = false
-
-    private var shouldTruncate: Bool {
-        highlight.content.count > 300
-    }
-
-    private var displayContent: String {
-        if shouldTruncate && !isExpanded {
-            return String(highlight.content.prefix(300)) + "..."
+    private func performSearchSync() {
+        guard !searchQuery.isEmpty else {
+            results = []
+            return
         }
-        return highlight.content
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .top, spacing: 12) {
-                Button(action: onToggleFavorite) {
-                    Image(systemName: highlight.isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(highlight.isFavorite ? .yellow : .secondary)
-                }
-                .buttonStyle(.plain)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    if let bookTitle = highlight.bookTitle {
-                        Text(bookTitle)
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    Text(displayContent)
-                        .font(.body)
-                        .textSelection(.enabled)
-
-                    if shouldTruncate {
-                        Button(isExpanded ? "Show less" : "Show more") {
-                            withAnimation {
-                                isExpanded.toggle()
-                            }
-                        }
-                        .font(.caption)
-                        .buttonStyle(.plain)
-                        .foregroundStyle(.blue)
-                    }
-
-                    HStack(spacing: 8) {
-                        if let location = highlight.location {
-                            Text(location)
-                        }
-
-                        if let date = highlight.dateHighlighted {
-                            Text("·")
-                            Text(date, style: .date)
-                        }
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                }
-            }
+        do {
+            results = try databaseManager.search(query: searchQuery)
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        .padding(.vertical, 8)
     }
 }
 

@@ -15,7 +15,7 @@ struct SettingsView: View {
                     Label("Tags", systemImage: "tag")
                 }
         }
-        .frame(width: 450, height: 300)
+        .frame(width: 450, height: 350)
     }
 }
 
@@ -29,18 +29,6 @@ struct GeneralSettingsView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-        }
-        .padding()
-    }
-}
-
-struct TagManagerView: View {
-    var body: some View {
-        VStack {
-            Text("Tag Manager")
-                .font(.headline)
-            Text("Coming in Phase 4")
-                .foregroundStyle(.secondary)
         }
         .padding()
     }
