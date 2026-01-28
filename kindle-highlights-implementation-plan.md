@@ -293,11 +293,11 @@ Gray:    #6B7280
 10. [x] Add Import button with file picker
 11. [x] Test full import → display flow
 
-### Phase 3: Features
-12. [ ] Add favorite toggle functionality
-13. [ ] Implement favorites filter in sidebar
-14. [ ] Build full-text search with FTS5
-15. [ ] Create `SearchResultsView`
+### Phase 3: Features ✅
+12. [x] Add favorite toggle functionality
+13. [x] Implement favorites filter in sidebar
+14. [x] Build full-text search with FTS5
+15. [x] Create `SearchResultsView`
 
 ### Phase 4: Tags
 16. [ ] Implement `Tag` model and CRUD in DatabaseManager

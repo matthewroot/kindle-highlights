@@ -24,6 +24,9 @@
 		A10001012 /* HighlightRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011012 /* HighlightRowView.swift */; };
 		A10001013 /* HighlightListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011013 /* HighlightListView.swift */; };
 		A10001014 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011014 /* EmptyStateView.swift */; };
+		A10001015 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011015 /* SidebarSelection.swift */; };
+		A10001016 /* FavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011016 /* FavoritesListView.swift */; };
+		A10001017 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011017 /* SearchResultsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,9 @@
 		A10011012 /* HighlightRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightRowView.swift; sourceTree = "<group>"; };
 		A10011013 /* HighlightListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightListView.swift; sourceTree = "<group>"; };
 		A10011014 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		A10011015 /* SidebarSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSelection.swift; sourceTree = "<group>"; };
+		A10011016 /* FavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListView.swift; sourceTree = "<group>"; };
+		A10011017 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,7 @@
 			children = (
 				A10011004 /* Book.swift */,
 				A10011005 /* Highlight.swift */,
+				A10011015 /* SidebarSelection.swift */,
 				A10011006 /* Tag.swift */,
 			);
 			path = Models;
@@ -153,6 +160,7 @@
 				A1007100B /* Sidebar */,
 				A1007100C /* Detail */,
 				A1007100D /* Components */,
+				A1007100E /* Search */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +177,7 @@
 		A1007100C /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				A10011016 /* FavoritesListView.swift */,
 				A10011012 /* HighlightRowView.swift */,
 				A10011013 /* HighlightListView.swift */,
 			);
@@ -181,6 +190,14 @@
 				A10011014 /* EmptyStateView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		A1007100E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A10011017 /* SearchResultsView.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		A10071009 /* ViewModels */ = {
@@ -306,6 +323,9 @@
 				A10001012 /* HighlightRowView.swift in Sources */,
 				A10001013 /* HighlightListView.swift in Sources */,
 				A10001014 /* EmptyStateView.swift in Sources */,
+				A10001015 /* SidebarSelection.swift in Sources */,
+				A10001016 /* FavoritesListView.swift in Sources */,
+				A10001017 /* SearchResultsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

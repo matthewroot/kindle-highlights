@@ -2,20 +2,30 @@ import SwiftUI
 
 struct BookListView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
-    @Binding var selectedBook: Book?
+    @Binding var selection: SidebarSelection?
 
     var body: some View {
-        List(databaseManager.books, selection: $selectedBook) { book in
-            BookRowView(book: book)
-                .tag(book)
+        List(selection: $selection) {
+            Section {
+                Label("Favorites", systemImage: "star.fill")
+                    .foregroundStyle(.yellow)
+                    .tag(SidebarSelection.favorites)
+            }
+
+            Section("Books") {
+                ForEach(databaseManager.books) { book in
+                    BookRowView(book: book)
+                        .tag(SidebarSelection.book(book))
+                }
+            }
         }
         .listStyle(.sidebar)
-        .navigationTitle("Books")
+        .navigationTitle("Library")
     }
 }
 
 #Preview {
-    BookListView(selectedBook: .constant(nil))
+    BookListView(selection: .constant(nil))
         .environmentObject(DatabaseManager())
         .frame(width: 250)
 }

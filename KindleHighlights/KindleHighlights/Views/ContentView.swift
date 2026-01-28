@@ -2,11 +2,16 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
-    @State private var selectedBook: Book?
+    @State private var selection: SidebarSelection?
+    @State private var searchText = ""
     @State private var isImporting = false
     @State private var showingImportResult = false
     @State private var importResult: ImportResult?
     @State private var importError: String?
+
+    private var isSearching: Bool {
+        !searchText.isEmpty
+    }
 
     var body: some View {
         NavigationSplitView {
@@ -14,6 +19,7 @@ struct ContentView: View {
         } detail: {
             detailView
         }
+        .searchable(text: $searchText, placement: .toolbar, prompt: "Search highlights")
         .frame(minWidth: 700, minHeight: 500)
         .fileImporter(
             isPresented: $isImporting,
@@ -53,7 +59,7 @@ struct ContentView: View {
                     actionTitle: "Import Clippings"
                 )
             } else {
-                BookListView(selectedBook: $selectedBook)
+                BookListView(selection: $selection)
             }
         }
         .frame(minWidth: 220)
@@ -73,14 +79,34 @@ struct ContentView: View {
     private var detailView: some View {
         if databaseManager.isLoading {
             ProgressView("Loading...")
-        } else if let book = selectedBook {
-            HighlightListView(book: book)
+        } else if isSearching {
+            SearchResultsView(
+                searchQuery: searchText,
+                onToggleFavorite: { highlight in
+                    toggleFavorite(highlight)
+                }
+            )
+        } else if let selection = selection {
+            switch selection {
+            case .favorites:
+                FavoritesListView()
+            case .book(let book):
+                HighlightListView(book: book)
+            }
         } else {
             EmptyStateView(
                 title: "Select a Book",
                 message: "Choose a book from the sidebar to view its highlights.",
                 systemImage: "text.quote"
             )
+        }
+    }
+
+    private func toggleFavorite(_ highlight: Highlight) {
+        do {
+            try databaseManager.toggleFavorite(highlightId: highlight.id)
+        } catch {
+            importError = error.localizedDescription
         }
     }
 
@@ -116,7 +142,7 @@ struct ContentView: View {
 
                     // Clear selection if we imported new books
                     if result.imported > 0 {
-                        selectedBook = nil
+                        selection = nil
                     }
                 } catch {
                     importError = error.localizedDescription
