@@ -1,0 +1,543 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3FA5D1802F29B3DC00431E3A /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 3FA5D17F2F29B3DC00431E3A /* SQLite */; };
+		A10001001 /* KindleHighlightsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011001 /* KindleHighlightsApp.swift */; };
+		A10001002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011002 /* ContentView.swift */; };
+		A10001003 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011003 /* SettingsView.swift */; };
+		A10001004 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011004 /* Book.swift */; };
+		A10001005 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011005 /* Highlight.swift */; };
+		A10001006 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011006 /* Tag.swift */; };
+		A10001007 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011007 /* DatabaseManager.swift */; };
+		A10001008 /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011008 /* Schema.swift */; };
+		A10001009 /* ImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011009 /* ImportService.swift */; };
+		A1000100A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1001100A /* Assets.xcassets */; };
+		A1000100B /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001100B /* ParserTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A10031001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10041001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10051001;
+			remoteInfo = KindleHighlights;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A10011001 /* KindleHighlightsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KindleHighlightsApp.swift; sourceTree = "<group>"; };
+		A10011002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A10011003 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A10011004 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		A10011005 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
+		A10011006 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A10011007 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		A10011008 /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
+		A10011009 /* ImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportService.swift; sourceTree = "<group>"; };
+		A1001100A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1001100B /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
+		A1001100C /* KindleHighlights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KindleHighlights.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1001100D /* KindleHighlightsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KindleHighlightsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1001100E /* KindleHighlights.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KindleHighlights.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10061001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA5D1802F29B3DC00431E3A /* SQLite in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10061002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10071001 = {
+			isa = PBXGroup;
+			children = (
+				A10071002 /* KindleHighlights */,
+				A10071003 /* KindleHighlightsTests */,
+				A10071004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10071002 /* KindleHighlights */ = {
+			isa = PBXGroup;
+			children = (
+				A10071005 /* App */,
+				A10071006 /* Models */,
+				A10071007 /* Database */,
+				A10071008 /* Views */,
+				A10071009 /* ViewModels */,
+				A1007100A /* Resources */,
+				A1001100E /* KindleHighlights.entitlements */,
+			);
+			path = KindleHighlights;
+			sourceTree = "<group>";
+		};
+		A10071003 /* KindleHighlightsTests */ = {
+			isa = PBXGroup;
+			children = (
+				A1001100B /* ParserTests.swift */,
+			);
+			path = KindleHighlightsTests;
+			sourceTree = "<group>";
+		};
+		A10071004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1001100C /* KindleHighlights.app */,
+				A1001100D /* KindleHighlightsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A10071005 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A10011001 /* KindleHighlightsApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A10071006 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A10011004 /* Book.swift */,
+				A10011005 /* Highlight.swift */,
+				A10011006 /* Tag.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A10071007 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A10011007 /* DatabaseManager.swift */,
+				A10011008 /* Schema.swift */,
+				A10011009 /* ImportService.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		A10071008 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A10011002 /* ContentView.swift */,
+				A10011003 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A10071009 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1007100A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1001100A /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10051001 /* KindleHighlights */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10081001 /* Build configuration list for PBXNativeTarget "KindleHighlights" */;
+			buildPhases = (
+				A10091001 /* Sources */,
+				A10061001 /* Frameworks */,
+				A100A1001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KindleHighlights;
+			productName = KindleHighlights;
+			productReference = A1001100C /* KindleHighlights.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A10051002 /* KindleHighlightsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10081002 /* Build configuration list for PBXNativeTarget "KindleHighlightsTests" */;
+			buildPhases = (
+				A10091002 /* Sources */,
+				A10061002 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A100B1001 /* PBXTargetDependency */,
+			);
+			name = KindleHighlightsTests;
+			productName = KindleHighlightsTests;
+			productReference = A1001100D /* KindleHighlightsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10041001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A10051001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A10051002 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = A10051001;
+					};
+				};
+			};
+			buildConfigurationList = A10081003 /* Build configuration list for PBXProject "KindleHighlights" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10071001;
+			packageReferences = (
+				3FA5D17E2F29B3DC00431E3A /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
+			productRefGroup = A10071004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10051001 /* KindleHighlights */,
+				A10051002 /* KindleHighlightsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100A1001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000100A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10091001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001001 /* KindleHighlightsApp.swift in Sources */,
+				A10001002 /* ContentView.swift in Sources */,
+				A10001003 /* SettingsView.swift in Sources */,
+				A10001004 /* Book.swift in Sources */,
+				A10001005 /* Highlight.swift in Sources */,
+				A10001006 /* Tag.swift in Sources */,
+				A10001007 /* DatabaseManager.swift in Sources */,
+				A10001008 /* Schema.swift in Sources */,
+				A10001009 /* ImportService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10091002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000100B /* ParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A100B1001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10051001 /* KindleHighlights */;
+			targetProxy = A10031001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A100D1001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A100D1002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A100D1003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KindleHighlights/KindleHighlights.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kindlehighlights.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A100D1004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KindleHighlights/KindleHighlights.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kindlehighlights.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A100D1005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kindlehighlights.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KindleHighlights.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KindleHighlights";
+			};
+			name = Debug;
+		};
+		A100D1006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kindlehighlights.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KindleHighlights.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KindleHighlights";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10081001 /* Build configuration list for PBXNativeTarget "KindleHighlights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100D1003 /* Debug */,
+				A100D1004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10081002 /* Build configuration list for PBXNativeTarget "KindleHighlightsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100D1005 /* Debug */,
+				A100D1006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10081003 /* Build configuration list for PBXProject "KindleHighlights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100D1001 /* Debug */,
+				A100D1002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3FA5D17E2F29B3DC00431E3A /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3FA5D17F2F29B3DC00431E3A /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FA5D17E2F29B3DC00431E3A /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A10041001 /* Project object */;
+}
