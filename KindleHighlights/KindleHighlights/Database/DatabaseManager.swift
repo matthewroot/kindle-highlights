@@ -325,10 +325,14 @@ class DatabaseManager: ObservableObject {
     // MARK: - Import
 
     func importClippings(from url: URL) async throws -> ImportResult {
+        let content = try String(contentsOf: url, encoding: .utf8)
+        return try await importClippings(content: content)
+    }
+
+    func importClippings(content: String) async throws -> ImportResult {
         isLoading = true
         defer { isLoading = false }
 
-        let content = try String(contentsOf: url, encoding: .utf8)
         let parsed = ImportService.parse(clippingsContent: content)
 
         var imported = 0
