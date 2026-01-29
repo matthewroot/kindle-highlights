@@ -4,6 +4,8 @@ struct BookListView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @Binding var selection: SidebarSelection?
 
+    @State private var showingTagManager = false
+
     var body: some View {
         List(selection: $selection) {
             Section {
@@ -13,7 +15,7 @@ struct BookListView: View {
             }
 
             if !databaseManager.tags.isEmpty {
-                Section("Tags") {
+                Section {
                     ForEach(databaseManager.tags) { tag in
                         Label {
                             Text(tag.name)
@@ -23,6 +25,21 @@ struct BookListView: View {
                                 .frame(width: 10, height: 10)
                         }
                         .tag(SidebarSelection.tag(tag))
+                    }
+                } header: {
+                    HStack {
+                        Text("Tags")
+
+                        Spacer()
+
+                        Button {
+                            showingTagManager = true
+                        } label: {
+                            Image(systemName: "pencil")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -36,6 +53,28 @@ struct BookListView: View {
         }
         .listStyle(.sidebar)
         .navigationTitle("Library")
+        .sheet(isPresented: $showingTagManager) {
+            TagManagerSheet()
+                .environmentObject(databaseManager)
+        }
+    }
+}
+
+/// Wraps TagManagerView in a sheet with a close button
+struct TagManagerSheet: View {
+    @EnvironmentObject var databaseManager: DatabaseManager
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        TagManagerView()
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+            .frame(minWidth: 350, minHeight: 300)
     }
 }
 

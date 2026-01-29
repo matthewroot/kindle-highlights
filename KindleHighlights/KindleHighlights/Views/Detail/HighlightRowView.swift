@@ -69,10 +69,6 @@ struct HighlightRowView: View {
 
                     // Tags row
                     HStack(spacing: 6) {
-                        ForEach(currentTags) { tag in
-                            TagChipView(tag: tag)
-                        }
-
                         Button {
                             showingTagPicker = true
                         } label: {
@@ -91,12 +87,19 @@ struct HighlightRowView: View {
                                 }
                             )
                         }
+
+                        ForEach(currentTags) { tag in
+                            TagChipView(tag: tag)
+                        }
                     }
                 }
             }
         }
         .padding(.vertical, 8)
         .onAppear {
+            loadTags()
+        }
+        .onChange(of: databaseManager.tags) {
             loadTags()
         }
     }
