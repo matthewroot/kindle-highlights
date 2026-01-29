@@ -5,6 +5,7 @@ struct BookListView: View {
     @Binding var selection: SidebarSelection?
 
     @State private var showingTagManager = false
+    @State private var isHoveringTagsHeader = false
 
     var body: some View {
         List(selection: $selection) {
@@ -27,10 +28,8 @@ struct BookListView: View {
                         .tag(SidebarSelection.tag(tag))
                     }
                 } header: {
-                    HStack {
+                    HStack(spacing: 6) {
                         Text("Tags")
-
-                        Spacer()
 
                         Button {
                             showingTagManager = true
@@ -40,6 +39,12 @@ struct BookListView: View {
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
+                        .opacity(isHoveringTagsHeader ? 1 : 0)
+
+                        Spacer()
+                    }
+                    .onHover { hovering in
+                        isHoveringTagsHeader = hovering
                     }
                 }
             }
