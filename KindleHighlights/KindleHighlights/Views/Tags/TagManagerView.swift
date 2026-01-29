@@ -4,6 +4,7 @@ struct TagManagerView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var tags: [Tag] = []
     @State private var editingTag: Tag?
+    @State private var deletingTag: Tag?
     @State private var isCreatingTag = false
     @State private var newTagName = ""
     @State private var newTagColor = "#3B82F6"
@@ -31,7 +32,6 @@ struct TagManagerView: View {
                     ForEach(tags) { tag in
                         tagRow(for: tag)
                     }
-                    .onDelete(perform: deleteTags)
                 }
                 .listStyle(.inset)
             }
@@ -60,6 +60,23 @@ struct TagManagerView: View {
                 }
             )
         }
+        .alert("Delete Tag", isPresented: .init(
+            get: { deletingTag != nil },
+            set: { if !$0 { deletingTag = nil } }
+        )) {
+            Button("Cancel", role: .cancel) {
+                deletingTag = nil
+            }
+            Button("Delete", role: .destructive) {
+                if let tag = deletingTag {
+                    deleteTag(tag)
+                }
+            }
+        } message: {
+            if let tag = deletingTag {
+                Text("Are you sure you want to delete \"\(tag.name)\"? This will remove it from all highlights.")
+            }
+        }
         .onAppear {
             loadTags()
         }
@@ -82,6 +99,14 @@ struct TagManagerView: View {
             } label: {
                 Image(systemName: "pencil")
                     .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+
+            Button {
+                deletingTag = tag
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundStyle(.red.opacity(0.7))
             }
             .buttonStyle(.plain)
         }
@@ -119,9 +144,6 @@ struct TagManagerView: View {
                 .textFieldStyle(.roundedBorder)
 
             HStack(spacing: 8) {
-                Text("Color:")
-                    .foregroundStyle(.secondary)
-
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
                         .fill(Color(hex: hex) ?? .gray)
@@ -191,16 +213,14 @@ struct TagManagerView: View {
         }
     }
 
-    private func deleteTags(at offsets: IndexSet) {
-        for index in offsets {
-            let tag = tags[index]
-            do {
-                try databaseManager.deleteTag(id: tag.id)
-            } catch {
-                errorMessage = error.localizedDescription
-            }
+    private func deleteTag(_ tag: Tag) {
+        do {
+            try databaseManager.deleteTag(id: tag.id)
+            loadTags()
+            deletingTag = nil
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        loadTags()
     }
 }
 
@@ -231,9 +251,6 @@ struct TagEditSheet: View {
                 .textFieldStyle(.roundedBorder)
 
             HStack(spacing: 8) {
-                Text("Color:")
-                    .foregroundStyle(.secondary)
-
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
                         .fill(Color(hex: hex) ?? .gray)

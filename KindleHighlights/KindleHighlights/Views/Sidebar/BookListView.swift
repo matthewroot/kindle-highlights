@@ -4,8 +4,6 @@ struct BookListView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @Binding var selection: SidebarSelection?
 
-    @State private var tags: [Tag] = []
-
     var body: some View {
         List(selection: $selection) {
             Section {
@@ -14,9 +12,9 @@ struct BookListView: View {
                     .tag(SidebarSelection.favorites)
             }
 
-            if !tags.isEmpty {
+            if !databaseManager.tags.isEmpty {
                 Section("Tags") {
-                    ForEach(tags) { tag in
+                    ForEach(databaseManager.tags) { tag in
                         Label {
                             Text(tag.name)
                         } icon: {
@@ -38,17 +36,6 @@ struct BookListView: View {
         }
         .listStyle(.sidebar)
         .navigationTitle("Library")
-        .onAppear {
-            loadTags()
-        }
-    }
-
-    private func loadTags() {
-        do {
-            tags = try databaseManager.getAllTags()
-        } catch {
-            tags = []
-        }
     }
 }
 

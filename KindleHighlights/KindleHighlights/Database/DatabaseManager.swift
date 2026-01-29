@@ -8,6 +8,7 @@ class DatabaseManager: ObservableObject {
     private var db: Connection?
 
     @Published var books: [Book] = []
+    @Published var tags: [Tag] = []
     @Published var isLoading = false
     @Published var error: DatabaseError?
 
@@ -29,6 +30,7 @@ class DatabaseManager: ObservableObject {
         do {
             try connect()
             try loadBooks()
+            try loadTags()
         } catch {
             self.error = .connectionFailed(error.localizedDescription)
         }
@@ -256,6 +258,10 @@ class DatabaseManager: ObservableObject {
 
     // MARK: - Tags
 
+    func loadTags() throws {
+        tags = try getAllTags()
+    }
+
     func getAllTags() throws -> [Tag] {
         guard let db = db else { return [] }
 
@@ -277,7 +283,9 @@ class DatabaseManager: ObservableObject {
             Schema.Tags.name <- name,
             Schema.Tags.color <- color
         )
-        return try db.run(insert)
+        let id = try db.run(insert)
+        try loadTags()
+        return id
     }
 
     func deleteTag(id: Int64) throws {
@@ -285,6 +293,7 @@ class DatabaseManager: ObservableObject {
 
         let tag = Schema.tags.filter(Schema.Tags.id == id)
         try db.run(tag.delete())
+        try loadTags()
     }
 
     func updateTag(id: Int64, name: String, color: String) throws {
@@ -295,6 +304,7 @@ class DatabaseManager: ObservableObject {
             Schema.Tags.name <- name,
             Schema.Tags.color <- color
         ))
+        try loadTags()
     }
 
     func addTag(_ tagId: Int64, toHighlight highlightId: Int64) throws {
