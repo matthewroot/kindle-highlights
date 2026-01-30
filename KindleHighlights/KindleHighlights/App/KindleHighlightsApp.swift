@@ -15,6 +15,11 @@ struct KindleHighlightsApp: App {
                     NotificationCenter.default.post(name: .importClippings, object: nil)
                 }
                 .keyboardShortcut("i", modifiers: [.command])
+
+                Button("Export to Markdown...") {
+                    NotificationCenter.default.post(name: .exportMarkdown, object: nil)
+                }
+                .keyboardShortcut("e", modifiers: [.command])
             }
         }
 
@@ -29,4 +34,5 @@ struct KindleHighlightsApp: App {
 
 extension Notification.Name {
     static let importClippings = Notification.Name("importClippings")
+    static let exportMarkdown = Notification.Name("exportMarkdown")
 }

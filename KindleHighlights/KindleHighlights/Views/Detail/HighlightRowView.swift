@@ -6,6 +6,7 @@ struct HighlightRowView: View {
     let onToggleFavorite: () -> Void
     var onTagsChanged: (() -> Void)?
     var showBookTitle: Bool = false
+    var externalTagPickerHighlightId: Binding<Int64?>?
 
     @State private var isExpanded = false
     @State private var showingTagPicker = false
@@ -96,11 +97,29 @@ struct HighlightRowView: View {
             }
         }
         .padding(.vertical, 8)
+        .contextMenu {
+            Button("Copy Highlight") {
+                Clipboard.copy(highlight.content)
+            }
+            Divider()
+            Button(highlight.isFavorite ? "Unfavorite" : "Favorite") {
+                onToggleFavorite()
+            }
+            Button("Add Tag...") {
+                showingTagPicker = true
+            }
+        }
         .onAppear {
             loadTags()
         }
         .onChange(of: databaseManager.tags) {
             loadTags()
+        }
+        .onChange(of: externalTagPickerHighlightId?.wrappedValue) {
+            if externalTagPickerHighlightId?.wrappedValue == highlight.id {
+                showingTagPicker = true
+                externalTagPickerHighlightId?.wrappedValue = nil
+            }
         }
     }
 

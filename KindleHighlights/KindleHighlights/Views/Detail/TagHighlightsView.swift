@@ -5,55 +5,69 @@ struct TagHighlightsView: View {
     let tag: Tag
 
     @State private var highlights: [Highlight] = []
-    @State private var isLoading = false
+    @State private var hasLoaded = false
     @State private var errorMessage: String?
+    @State private var selectedHighlightId: Int64?
+    @State private var tagPickerHighlightId: Int64?
 
     var body: some View {
         Group {
-            if isLoading {
-                ProgressView("Loading highlights...")
-            } else if let error = errorMessage {
+            if let error = errorMessage {
                 ContentUnavailableView {
                     Label("Error", systemImage: "exclamationmark.triangle")
                 } description: {
                     Text(error)
                 }
-            } else if highlights.isEmpty {
+            } else if hasLoaded && highlights.isEmpty {
                 ContentUnavailableView {
                     Label("No Highlights", systemImage: "tag")
                 } description: {
                     Text("No highlights have this tag yet.")
                 }
             } else {
-                List(highlights) { highlight in
-                    VStack(alignment: .leading, spacing: 4) {
-                        if let bookTitle = highlight.bookTitle {
-                            Text(bookTitle)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-
+                List(selection: $selectedHighlightId) {
+                    ForEach(highlights) { highlight in
                         HighlightRowView(
                             highlight: highlight,
                             onToggleFavorite: { toggleFavorite(highlight) },
-                            onTagsChanged: { loadHighlights() }
+                            onTagsChanged: { loadHighlights() },
+                            showBookTitle: true,
+                            externalTagPickerHighlightId: $tagPickerHighlightId
                         )
+                        .tag(highlight.id)
                     }
                 }
                 .listStyle(.plain)
+                .onKeyPress("f") {
+                    guard let id = selectedHighlightId,
+                          let highlight = highlights.first(where: { $0.id == id }) else {
+                        return .ignored
+                    }
+                    toggleFavorite(highlight)
+                    return .handled
+                }
+                .onKeyPress("t") {
+                    guard let id = selectedHighlightId else { return .ignored }
+                    tagPickerHighlightId = id
+                    return .handled
+                }
+                .onKeyPress("c", phases: .down) { press in
+                    guard press.modifiers.contains(.command),
+                          let id = selectedHighlightId,
+                          let highlight = highlights.first(where: { $0.id == id }) else {
+                        return .ignored
+                    }
+                    Clipboard.copy(highlight.content)
+                    return .handled
+                }
             }
         }
         .navigationTitle(tag.name)
+        .navigationSubtitle("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
         .task(id: tag.id) {
-            await loadHighlightsAsync()
+            loadHighlights()
+            hasLoaded = true
         }
-    }
-
-    private func loadHighlightsAsync() async {
-        isLoading = true
-        errorMessage = nil
-        loadHighlights()
-        isLoading = false
     }
 
     private func loadHighlights() {

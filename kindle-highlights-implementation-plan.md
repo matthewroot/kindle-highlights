@@ -306,12 +306,15 @@ Gray:    #6B7280
 19. [x] Wire up tag assignment to highlights
 20. [x] Add tag filtering
 
-### Phase 5: Polish
-21. [ ] Add keyboard shortcuts
-22. [ ] Implement drag-drop import
-23. [ ] Add export to Markdown
+### Phase 5: Polish ✅
+21. [x] Add keyboard shortcuts (`f` favorite, `t` tag, `Cmd+C` copy, `Cmd+E` export, `Cmd+I` import)
+22. [x] Implement drag-drop import
+23. [x] Add export to Markdown
 24. [x] Empty states and onboarding
-25. [ ] App icon and final UI polish
+25. [x] App icon asset catalog prepared (PNG files pending design)
+26. [x] Context menu on highlight rows (Copy, Favorite, Tag)
+27. [x] Fix Cmd+I menu bar shortcut (was not wired up)
+28. [x] Eliminate empty state flash on view transitions
 
 ---
 

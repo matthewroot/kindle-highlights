@@ -31,6 +31,8 @@
 		A10001019 /* TagPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011019 /* TagPickerView.swift */; };
 		A1000101A /* TagManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101A /* TagManagerView.swift */; };
 		A1000101B /* TagHighlightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101B /* TagHighlightsView.swift */; };
+		A1000101C /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101C /* ExportService.swift */; };
+		A1000101D /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101D /* Clipboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		A10011019 /* TagPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPickerView.swift; sourceTree = "<group>"; };
 		A1001101A /* TagManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManagerView.swift; sourceTree = "<group>"; };
 		A1001101B /* TagHighlightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHighlightsView.swift; sourceTree = "<group>"; };
+		A1001101C /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		A1001101D /* Clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,7 @@
 				A10071005 /* App */,
 				A10071006 /* Models */,
 				A10071007 /* Database */,
+				A10071010 /* Services */,
 				A10071008 /* Views */,
 				A10071009 /* ViewModels */,
 				A1007100A /* Resources */,
@@ -225,6 +230,15 @@
 			children = (
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A10071010 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A1001101D /* Clipboard.swift */,
+				A1001101C /* ExportService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		A1007100A /* Resources */ = {
@@ -350,6 +364,8 @@
 				A10001019 /* TagPickerView.swift in Sources */,
 				A1000101A /* TagManagerView.swift in Sources */,
 				A1000101B /* TagHighlightsView.swift in Sources */,
+				A1000101C /* ExportService.swift in Sources */,
+				A1000101D /* Clipboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
