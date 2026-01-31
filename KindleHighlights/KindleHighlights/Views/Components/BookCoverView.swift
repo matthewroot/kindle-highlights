@@ -22,6 +22,9 @@ enum CoverSize {
 struct BookCoverView: View {
     let book: Book
     let size: CoverSize
+    var isFetching: Bool = false
+
+    @State private var shimmerOpacity: Double = 0.3
 
     var body: some View {
         if let coverPath = book.coverImagePath,
@@ -31,6 +34,16 @@ struct BookCoverView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size.width, height: size.height)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
+        } else if isFetching {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(.quaternary)
+                .frame(width: size.width, height: size.height)
+                .opacity(shimmerOpacity)
+                .onAppear {
+                    withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                        shimmerOpacity = 0.7
+                    }
+                }
         } else {
             RoundedRectangle(cornerRadius: 4)
                 .fill(.quaternary)

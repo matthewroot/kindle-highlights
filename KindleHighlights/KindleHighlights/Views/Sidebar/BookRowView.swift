@@ -1,11 +1,16 @@
 import SwiftUI
 
 struct BookRowView: View {
+    @EnvironmentObject var databaseManager: DatabaseManager
     let book: Book
+
+    private var isFetchingCover: Bool {
+        databaseManager.coverFetchingBookIds.contains(book.id)
+    }
 
     var body: some View {
         HStack(spacing: 10) {
-            BookCoverView(book: book, size: .small)
+            BookCoverView(book: book, size: .small, isFetching: isFetchingCover)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(book.title)
@@ -56,4 +61,5 @@ struct BookRowView: View {
         ))
     }
     .frame(width: 250)
+    .environmentObject(DatabaseManager())
 }

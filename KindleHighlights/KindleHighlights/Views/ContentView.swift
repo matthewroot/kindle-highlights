@@ -6,6 +6,8 @@ struct ContentView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var selection: SidebarSelection?
     @State private var searchText = ""
+    @State private var debouncedSearchText = ""
+    @State private var searchDebounceTask: Task<Void, Never>?
     @State private var isImporting = false
     @State private var showingImportResult = false
     @State private var importResult: ImportResult?
@@ -27,6 +29,18 @@ struct ContentView: View {
             detailView
         }
         .searchable(text: $searchText, placement: .toolbar, prompt: "Search highlights")
+        .onChange(of: searchText) { _, newValue in
+            searchDebounceTask?.cancel()
+            if newValue.isEmpty {
+                debouncedSearchText = ""
+            } else {
+                searchDebounceTask = Task {
+                    try? await Task.sleep(nanoseconds: 250_000_000)
+                    guard !Task.isCancelled else { return }
+                    debouncedSearchText = newValue
+                }
+            }
+        }
         .frame(minWidth: 700, minHeight: 500)
         .onDrop(of: [.fileURL], isTargeted: $isDropTargeted) { providers in
             handleDrop(providers)
@@ -124,7 +138,7 @@ struct ContentView: View {
             ProgressView("Loading...")
         } else if isSearching {
             SearchResultsView(
-                searchQuery: searchText,
+                searchQuery: debouncedSearchText,
                 onToggleFavorite: { highlight in
                     toggleFavorite(highlight)
                 }

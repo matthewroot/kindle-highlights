@@ -11,6 +11,7 @@ class DatabaseManager: ObservableObject {
     @Published var tags: [Tag] = []
     @Published var isLoading = false
     @Published var error: DatabaseError?
+    @Published var coverFetchingBookIds: Set<Int64> = []
 
     enum DatabaseError: LocalizedError {
         case connectionFailed(String)
@@ -31,6 +32,7 @@ class DatabaseManager: ObservableObject {
             try connect()
             try loadBooks()
             try loadTags()
+            Task { await fetchAllMissingCovers() }
         } catch {
             self.error = .connectionFailed(error.localizedDescription)
         }
@@ -157,6 +159,9 @@ class DatabaseManager: ObservableObject {
     }
 
     func fetchCover(for book: Book) async {
+        coverFetchingBookIds.insert(book.id)
+        defer { coverFetchingBookIds.remove(book.id) }
+
         guard let filename = await CoverService.fetchCover(title: book.title, author: book.author) else {
             return
         }
@@ -168,12 +173,40 @@ class DatabaseManager: ObservableObject {
         }
     }
 
-    private func fetchCoversForNewBooks() async {
-        guard let booksWithoutCovers = try? getBooksWithoutCovers() else { return }
+    func fetchAllMissingCovers() async {
+        guard let booksWithoutCovers = try? getBooksWithoutCovers(), !booksWithoutCovers.isEmpty else { return }
 
-        for book in booksWithoutCovers {
-            await fetchCover(for: book)
-            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s delay
+        let batchSize = 10
+        for batchStart in stride(from: 0, to: booksWithoutCovers.count, by: batchSize) {
+            let batchEnd = min(batchStart + batchSize, booksWithoutCovers.count)
+            let batch = Array(booksWithoutCovers[batchStart..<batchEnd])
+
+            let batchIds = Set(batch.map(\.id))
+            coverFetchingBookIds.formUnion(batchIds)
+
+            await withTaskGroup(of: Void.self) { group in
+                for book in batch {
+                    group.addTask { [weak self] in
+                        guard let filename = await CoverService.fetchCover(title: book.title, author: book.author) else {
+                            return
+                        }
+                        await MainActor.run {
+                            do {
+                                try self?.updateCoverPath(bookId: book.id, path: filename)
+                            } catch {
+                                // Cover fetch is best-effort
+                            }
+                        }
+                    }
+                }
+            }
+
+            coverFetchingBookIds.subtract(batchIds)
+            try? loadBooks()
+
+            if batchEnd < booksWithoutCovers.count {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+            }
         }
     }
 
@@ -467,7 +500,7 @@ class DatabaseManager: ObservableObject {
 
         try loadBooks()
 
-        Task { await fetchCoversForNewBooks() }
+        Task { await fetchAllMissingCovers() }
 
         return ImportResult(imported: imported, skipped: skipped, total: parsed.count)
     }

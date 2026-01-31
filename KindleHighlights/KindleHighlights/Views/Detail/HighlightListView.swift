@@ -9,10 +9,13 @@ struct HighlightListView: View {
     @State private var errorMessage: String?
     @State private var selectedHighlightId: Int64?
     @State private var tagPickerHighlightId: Int64?
-    @State private var isFetchingCover = false
 
     private var currentBook: Book {
         databaseManager.books.first(where: { $0.id == book.id }) ?? book
+    }
+
+    private var isFetchingCover: Bool {
+        databaseManager.coverFetchingBookIds.contains(book.id)
     }
 
     var body: some View {
@@ -32,32 +35,34 @@ struct HighlightListView: View {
             } else {
                 List(selection: $selectedHighlightId) {
                     Section {
-                        HStack {
-                            Spacer()
-                            VStack(spacing: 8) {
-                                BookCoverView(book: currentBook, size: .large)
-                                Button {
-                                    isFetchingCover = true
-                                    Task {
-                                        await databaseManager.fetchCover(for: currentBook)
-                                        isFetchingCover = false
-                                    }
-                                } label: {
-                                    if isFetchingCover {
-                                        ProgressView()
-                                            .controlSize(.small)
-                                    } else {
-                                        Text(currentBook.coverImagePath != nil ? "Refresh Cover" : "Fetch Cover")
-                                            .font(.caption)
-                                    }
+                        HStack(spacing: 12) {
+                            BookCoverView(book: currentBook, size: .large, isFetching: isFetchingCover)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(currentBook.title)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+
+                                if let author = currentBook.author {
+                                    Text(author)
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
                                 }
-                                .buttonStyle(.plain)
-                                .foregroundStyle(.blue)
-                                .disabled(isFetchingCover)
+
+                                Text("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
+                                    .font(.caption)
+                                    .foregroundStyle(.tertiary)
                             }
+
                             Spacer()
                         }
+                        .padding(.bottom, 12)
                         .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 16))
+
+                        Divider()
+                            .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
+                            .listRowSeparator(.hidden)
                     }
 
                     ForEach(highlights) { highlight in
@@ -67,6 +72,7 @@ struct HighlightListView: View {
                             externalTagPickerHighlightId: $tagPickerHighlightId
                         )
                         .tag(highlight.id)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 16))
                     }
                 }
                 .listStyle(.plain)
@@ -94,8 +100,7 @@ struct HighlightListView: View {
                 }
             }
         }
-        .navigationTitle(book.title)
-        .navigationSubtitle("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")\(book.author.map { " · \($0)" } ?? "")")
+        .navigationTitle("")
         .task(id: book.id) {
             loadHighlights()
         }
