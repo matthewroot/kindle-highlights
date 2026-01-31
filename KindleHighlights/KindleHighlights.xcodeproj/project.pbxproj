@@ -33,6 +33,9 @@
 		A1000101B /* TagHighlightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101B /* TagHighlightsView.swift */; };
 		A1000101C /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101C /* ExportService.swift */; };
 		A1000101D /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101D /* Clipboard.swift */; };
+		A1000101E /* CoverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101E /* CoverService.swift */; };
+		A1000101F /* CoverImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101F /* CoverImageCache.swift */; };
+		A10001020 /* BookCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10011020 /* BookCoverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,9 @@
 		A1001101B /* TagHighlightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHighlightsView.swift; sourceTree = "<group>"; };
 		A1001101C /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		A1001101D /* Clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		A1001101E /* CoverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverService.swift; sourceTree = "<group>"; };
+		A1001101F /* CoverImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageCache.swift; sourceTree = "<group>"; };
+		A10011020 /* BookCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +208,7 @@
 		A1007100D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				A10011020 /* BookCoverView.swift */,
 				A10011014 /* EmptyStateView.swift */,
 			);
 			path = Components;
@@ -236,6 +243,8 @@
 			isa = PBXGroup;
 			children = (
 				A1001101D /* Clipboard.swift */,
+				A1001101F /* CoverImageCache.swift */,
+				A1001101E /* CoverService.swift */,
 				A1001101C /* ExportService.swift */,
 			);
 			path = Services;
@@ -366,6 +375,9 @@
 				A1000101B /* TagHighlightsView.swift in Sources */,
 				A1000101C /* ExportService.swift in Sources */,
 				A1000101D /* Clipboard.swift in Sources */,
+				A1000101E /* CoverService.swift in Sources */,
+				A1000101F /* CoverImageCache.swift in Sources */,
+				A10001020 /* BookCoverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -47,6 +47,13 @@ class DatabaseManager: ObservableObject {
 
         db = try Connection(dbPath)
         try Schema.createTables(db: db!)
+
+        // Run migrations
+        let version = try db!.scalar("PRAGMA user_version") as? Int64 ?? 0
+        if Int(version) < Schema.currentVersion {
+            try Schema.migrate(db: db!, from: Int(version))
+            try db!.run("PRAGMA user_version = \(Schema.currentVersion)")
+        }
     }
 
     static func databasePath() -> String {
@@ -80,7 +87,8 @@ class DatabaseManager: ObservableObject {
                 author: row[Schema.Books.author],
                 kindleTitle: row[Schema.Books.kindleTitle],
                 createdAt: row[Schema.Books.createdAt],
-                highlightCount: row[Schema.highlights[Schema.Highlights.id].count]
+                highlightCount: row[Schema.highlights[Schema.Highlights.id].count],
+                coverImagePath: row[Schema.Books.coverImagePath]
             )
         }
     }
@@ -115,8 +123,58 @@ class DatabaseManager: ObservableObject {
             title: row[Schema.Books.title],
             author: row[Schema.Books.author],
             kindleTitle: row[Schema.Books.kindleTitle],
-            createdAt: row[Schema.Books.createdAt]
+            createdAt: row[Schema.Books.createdAt],
+            coverImagePath: row[Schema.Books.coverImagePath]
         )
+    }
+
+    // MARK: - Covers
+
+    func updateCoverPath(bookId: Int64, path: String?) throws {
+        guard let db = db else { return }
+
+        let book = Schema.books.filter(Schema.Books.id == bookId)
+        try db.run(book.update(Schema.Books.coverImagePath <- path))
+    }
+
+    func getBooksWithoutCovers() throws -> [Book] {
+        guard let db = db else { return [] }
+
+        let query = Schema.books
+            .filter(Schema.Books.coverImagePath == nil)
+            .order(Schema.Books.createdAt.desc)
+
+        return try db.prepare(query).map { row in
+            Book(
+                id: row[Schema.Books.id],
+                title: row[Schema.Books.title],
+                author: row[Schema.Books.author],
+                kindleTitle: row[Schema.Books.kindleTitle],
+                createdAt: row[Schema.Books.createdAt],
+                coverImagePath: nil
+            )
+        }
+    }
+
+    func fetchCover(for book: Book) async {
+        guard let filename = await CoverService.fetchCover(title: book.title, author: book.author) else {
+            return
+        }
+        do {
+            try updateCoverPath(bookId: book.id, path: filename)
+            try loadBooks()
+        } catch {
+            // Cover fetch is best-effort
+        }
+    }
+
+    private func fetchCoversForNewBooks() async {
+        guard let booksWithoutCovers = try? getBooksWithoutCovers() else { return }
+
+        for book in booksWithoutCovers {
+            await fetchCover(for: book)
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s delay
+        }
     }
 
     // MARK: - Highlights
@@ -408,6 +466,8 @@ class DatabaseManager: ObservableObject {
         }
 
         try loadBooks()
+
+        Task { await fetchCoversForNewBooks() }
 
         return ImportResult(imported: imported, skipped: skipped, total: parsed.count)
     }

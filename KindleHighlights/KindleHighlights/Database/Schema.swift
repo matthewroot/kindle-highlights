@@ -18,6 +18,7 @@ enum Schema {
         static let author = Expression<String?>("author")
         static let kindleTitle = Expression<String>("kindle_title")
         static let createdAt = Expression<Date>("created_at")
+        static let coverImagePath = Expression<String?>("cover_image_path")
     }
 
     // MARK: - Highlights Columns
@@ -50,7 +51,7 @@ enum Schema {
 
     // MARK: - Schema Version
 
-    static let currentVersion = 1
+    static let currentVersion = 2
 
     // MARK: - Create Tables
 
@@ -123,5 +124,13 @@ enum Schema {
                 INSERT INTO highlights_fts(rowid, content) VALUES (new.id, new.content);
             END
         """)
+    }
+
+    // MARK: - Migrations
+
+    static func migrate(db: Connection, from version: Int) throws {
+        if version < 2 {
+            try db.execute("ALTER TABLE books ADD COLUMN cover_image_path TEXT")
+        }
     }
 }

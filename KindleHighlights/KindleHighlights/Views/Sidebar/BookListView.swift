@@ -53,6 +53,11 @@ struct BookListView: View {
                 ForEach(databaseManager.books) { book in
                     BookRowView(book: book)
                         .tag(SidebarSelection.book(book))
+                        .contextMenu {
+                            Button(book.coverImagePath != nil ? "Refresh Cover" : "Fetch Cover") {
+                                Task { await databaseManager.fetchCover(for: book) }
+                            }
+                        }
                 }
             }
         }

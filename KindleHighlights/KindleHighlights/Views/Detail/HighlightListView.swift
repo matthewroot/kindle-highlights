@@ -9,6 +9,11 @@ struct HighlightListView: View {
     @State private var errorMessage: String?
     @State private var selectedHighlightId: Int64?
     @State private var tagPickerHighlightId: Int64?
+    @State private var isFetchingCover = false
+
+    private var currentBook: Book {
+        databaseManager.books.first(where: { $0.id == book.id }) ?? book
+    }
 
     var body: some View {
         Group {
@@ -26,6 +31,35 @@ struct HighlightListView: View {
                 }
             } else {
                 List(selection: $selectedHighlightId) {
+                    Section {
+                        HStack {
+                            Spacer()
+                            VStack(spacing: 8) {
+                                BookCoverView(book: currentBook, size: .large)
+                                Button {
+                                    isFetchingCover = true
+                                    Task {
+                                        await databaseManager.fetchCover(for: currentBook)
+                                        isFetchingCover = false
+                                    }
+                                } label: {
+                                    if isFetchingCover {
+                                        ProgressView()
+                                            .controlSize(.small)
+                                    } else {
+                                        Text(currentBook.coverImagePath != nil ? "Refresh Cover" : "Fetch Cover")
+                                            .font(.caption)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(.blue)
+                                .disabled(isFetchingCover)
+                            }
+                            Spacer()
+                        }
+                        .listRowSeparator(.hidden)
+                    }
+
                     ForEach(highlights) { highlight in
                         HighlightRowView(
                             highlight: highlight,

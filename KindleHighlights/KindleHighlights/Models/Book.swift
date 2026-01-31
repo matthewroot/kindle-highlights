@@ -8,4 +8,5 @@ struct Book: Identifiable, Hashable {
     let createdAt: Date
 
     var highlightCount: Int = 0
+    var coverImagePath: String? = nil
 }

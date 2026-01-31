@@ -4,21 +4,25 @@ struct BookRowView: View {
     let book: Book
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(book.title)
-                .font(.headline)
-                .lineLimit(2)
+        HStack(spacing: 10) {
+            BookCoverView(book: book, size: .small)
 
-            if let author = book.author {
-                Text(author)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(book.title)
+                    .font(.headline)
+                    .lineLimit(2)
+
+                if let author = book.author {
+                    Text(author)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+
+                Text("\(book.highlightCount) highlight\(book.highlightCount == 1 ? "" : "s")")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
-
-            Text("\(book.highlightCount) highlight\(book.highlightCount == 1 ? "" : "s")")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 4)
     }
