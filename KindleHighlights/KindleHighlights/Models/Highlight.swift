@@ -12,5 +12,6 @@ struct Highlight: Identifiable, Hashable {
 
     // Joined data
     var bookTitle: String?
+    var bookAuthor: String?
     var tags: [Tag] = []
 }

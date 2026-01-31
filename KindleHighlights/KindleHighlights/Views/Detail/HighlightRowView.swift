@@ -6,6 +6,7 @@ struct HighlightRowView: View {
     let onToggleFavorite: () -> Void
     var onTagsChanged: (() -> Void)?
     var showBookTitle: Bool = false
+    var searchTerms: [String] = []
     var externalTagPickerHighlightId: Binding<Int64?>?
 
     @State private var isExpanded = false
@@ -34,15 +35,28 @@ struct HighlightRowView: View {
 
                 VStack(alignment: .leading, spacing: 6) {
                     if showBookTitle, let bookTitle = highlight.bookTitle {
-                        Text(bookTitle)
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.secondary)
+                        if searchTerms.isEmpty {
+                            Text(bookTitle)
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text(TextHighlighter.highlight(text: bookTitle, terms: searchTerms))
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.secondary)
+                        }
                     }
 
-                    Text(displayContent)
-                        .font(.body)
-                        .textSelection(.enabled)
+                    if searchTerms.isEmpty {
+                        Text(displayContent)
+                            .font(.body)
+                            .textSelection(.enabled)
+                    } else {
+                        Text(TextHighlighter.highlight(text: displayContent, terms: searchTerms))
+                            .font(.body)
+                            .textSelection(.enabled)
+                    }
 
                     if shouldTruncate {
                         Button(isExpanded ? "Show less" : "Show more") {

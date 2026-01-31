@@ -314,23 +314,36 @@ class DatabaseManager: ObservableObject {
 
     func search(query searchQuery: String) throws -> [Highlight] {
         guard let db = db else { return [] }
+        guard searchQuery.count >= 2 else { return [] }
 
-        // Use FTS5 for full-text search
+        let ftsQuery = buildFTSQuery(searchQuery)
+
         let sql = """
-            SELECT h.*, b.title as book_title
+            SELECT h.id, h.book_id, h.content, h.location, h.date_highlighted,
+                   h.date_imported, h.is_favorite, h.content_hash,
+                   b.title as book_title, b.author as book_author
             FROM highlights h
             JOIN books b ON h.book_id = b.id
             WHERE h.id IN (
                 SELECT rowid FROM highlights_fts WHERE highlights_fts MATCH ?
             )
-            ORDER BY h.date_highlighted DESC
+            UNION
+            SELECT h.id, h.book_id, h.content, h.location, h.date_highlighted,
+                   h.date_imported, h.is_favorite, h.content_hash,
+                   b.title as book_title, b.author as book_author
+            FROM highlights h
+            JOIN books b ON h.book_id = b.id
+            WHERE b.title LIKE ? ESCAPE '\\' OR b.author LIKE ? ESCAPE '\\'
+            ORDER BY date_highlighted DESC
         """
+
+        let likePattern = "%" + escapeLikePattern(searchQuery) + "%"
 
         var results: [Highlight] = []
         let statement = try db.prepare(sql)
 
-        for row in try statement.run(searchQuery) {
-            let highlight = Highlight(
+        for row in try statement.run(ftsQuery, likePattern, likePattern) {
+            var highlight = Highlight(
                 id: row[0] as! Int64,
                 bookId: row[1] as! Int64,
                 content: row[2] as! String,
@@ -341,10 +354,30 @@ class DatabaseManager: ObservableObject {
                 contentHash: row[7] as! String,
                 bookTitle: row[8] as? String
             )
+            highlight.bookAuthor = row[9] as? String
             results.append(highlight)
         }
 
         return results
+    }
+
+    private func buildFTSQuery(_ input: String) -> String {
+        let words = input.split(separator: " ").map(String.init)
+        let sanitized = words.compactMap { sanitizeFTSToken($0) }.filter { !$0.isEmpty }
+        guard !sanitized.isEmpty else { return "\"\"" }
+        return sanitized.map { "\($0)*" }.joined(separator: " ")
+    }
+
+    private func sanitizeFTSToken(_ token: String) -> String {
+        let forbidden = CharacterSet(charactersIn: "\"*^():+-")
+        return token.unicodeScalars.filter { !forbidden.contains($0) }.map(String.init).joined()
+    }
+
+    private func escapeLikePattern(_ pattern: String) -> String {
+        pattern
+            .replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "%", with: "\\%")
+            .replacingOccurrences(of: "_", with: "\\_")
     }
 
     // MARK: - Tags

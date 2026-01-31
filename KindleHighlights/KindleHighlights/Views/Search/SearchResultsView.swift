@@ -11,6 +11,10 @@ struct SearchResultsView: View {
     @State private var selectedHighlightId: Int64?
     @State private var tagPickerHighlightId: Int64?
 
+    private var searchTerms: [String] {
+        searchQuery.split(separator: " ").map(String.init).filter { $0.count >= 2 }
+    }
+
     var body: some View {
         Group {
             if isSearching {
@@ -35,6 +39,7 @@ struct SearchResultsView: View {
                             onToggleFavorite: { onToggleFavorite(highlight) },
                             onTagsChanged: { performSearchSync() },
                             showBookTitle: true,
+                            searchTerms: searchTerms,
                             externalTagPickerHighlightId: $tagPickerHighlightId
                         )
                         .tag(highlight.id)
@@ -76,6 +81,14 @@ struct SearchResultsView: View {
         guard !searchQuery.isEmpty else {
             results = []
             return
+        }
+
+        // 500ms debounce — .task(id:) cancels the previous call on each
+        // keystroke, so only the final pause actually reaches the query.
+        do {
+            try await Task.sleep(for: .milliseconds(200))
+        } catch {
+            return // Task was cancelled by a new keystroke
         }
 
         isSearching = true
