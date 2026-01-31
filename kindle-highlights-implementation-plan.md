@@ -340,9 +340,14 @@ Gray:    #6B7280
 - [ ] Spaced repetition / random highlight surfacing
 - [ ] iOS companion app
 - [ ] Obsidian/Markdown vault sync
-- [ ] Book cover images (fetch from Open Library API)
+- [x] Book cover images (fetch from Open Library API)
+  - [x] Auto-fetch covers on import and startup (batched, concurrent)
+  - [x] Shimmer loading animation for covers being fetched
+  - [x] Compact book header row in detail view (cover, title, author, count)
 - [ ] Reading statistics (highlights per month, etc.)
-- [ ] Search improvements:
-  - [ ] Partial/prefix matching (e.g., "boat" matches "boats")
-  - [ ] Search book titles and authors, not just highlight content
-  - [ ] Highlight matched terms in search results
+- [x] Search improvements:
+  - [x] Partial/prefix matching (e.g., "boat" matches "boats")
+  - [x] Search book titles and authors, not just highlight content
+  - [x] Highlight matched terms in search results
+  - [x] Debounced search input (200ms)
+- [ ] App icon
