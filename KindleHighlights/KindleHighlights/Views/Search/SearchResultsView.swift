@@ -11,6 +11,10 @@ struct SearchResultsView: View {
     @State private var selectedHighlightId: Int64?
     @State private var tagPickerHighlightId: Int64?
 
+    private var searchTerms: [String] {
+        searchQuery.split(separator: " ").map(String.init).filter { $0.count >= 2 }
+    }
+
     var body: some View {
         Group {
             if isSearching {
@@ -35,6 +39,7 @@ struct SearchResultsView: View {
                             onToggleFavorite: { onToggleFavorite(highlight) },
                             onTagsChanged: { performSearchSync() },
                             showBookTitle: true,
+                            searchTerms: searchTerms,
                             externalTagPickerHighlightId: $tagPickerHighlightId
                         )
                         .tag(highlight.id)

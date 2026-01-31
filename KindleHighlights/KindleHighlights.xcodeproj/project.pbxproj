@@ -33,6 +33,7 @@
 		A1000101B /* TagHighlightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101B /* TagHighlightsView.swift */; };
 		A1000101C /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101C /* ExportService.swift */; };
 		A1000101D /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101D /* Clipboard.swift */; };
+		A1000101E /* TextHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1001101E /* TextHighlighter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		A1001101B /* TagHighlightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHighlightsView.swift; sourceTree = "<group>"; };
 		A1001101C /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		A1001101D /* Clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		A1001101E /* TextHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHighlighter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +239,7 @@
 			children = (
 				A1001101D /* Clipboard.swift */,
 				A1001101C /* ExportService.swift */,
+				A1001101E /* TextHighlighter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				A1000101B /* TagHighlightsView.swift in Sources */,
 				A1000101C /* ExportService.swift in Sources */,
 				A1000101D /* Clipboard.swift in Sources */,
+				A1000101E /* TextHighlighter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
