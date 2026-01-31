@@ -83,6 +83,14 @@ struct SearchResultsView: View {
             return
         }
 
+        // 500ms debounce — .task(id:) cancels the previous call on each
+        // keystroke, so only the final pause actually reaches the query.
+        do {
+            try await Task.sleep(for: .milliseconds(200))
+        } catch {
+            return // Task was cancelled by a new keystroke
+        }
+
         isSearching = true
         errorMessage = nil
 
