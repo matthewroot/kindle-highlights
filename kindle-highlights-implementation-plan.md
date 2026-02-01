@@ -311,7 +311,7 @@ Gray:    #6B7280
 22. [x] Implement drag-drop import
 23. [x] Add export to Markdown
 24. [x] Empty states and onboarding
-25. [x] App icon asset catalog prepared (PNG files pending design)
+25. [x] App icon added (all macOS sizes: 16px–1024px with Retina variants)
 26. [x] Context menu on highlight rows (Copy, Favorite, Tag)
 27. [x] Fix Cmd+I menu bar shortcut (was not wired up)
 28. [x] Eliminate empty state flash on view transitions
@@ -350,4 +350,4 @@ Gray:    #6B7280
   - [x] Search book titles and authors, not just highlight content
   - [x] Highlight matched terms in search results
   - [x] Debounced search input (200ms)
-- [ ] App icon
+- [x] App icon
