@@ -351,3 +351,8 @@ Gray:    #6B7280
   - [x] Highlight matched terms in search results
   - [x] Debounced search input (200ms)
 - [x] App icon
+- [ ] Sidebar book sorting (by title, most recent highlight, author)
+- [ ] Navigate from search/filtered highlights to book view (e.g., clickable title or "Go to book" button)
+- [ ] Sidebar book search/filter (by title, author, genre)
+- [ ] Show author in highlights detail view header (currently only shows book title)
+- [ ] Change app display name
