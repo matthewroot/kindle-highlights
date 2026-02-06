@@ -25,15 +25,15 @@ struct HighlightRowView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .top, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(alignment: .top, spacing: Spacing.md) {
                 Button(action: onToggleFavorite) {
                     Image(systemName: highlight.isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(highlight.isFavorite ? .yellow : .secondary)
+                        .foregroundStyle(highlight.isFavorite ? AppColor.favorite : .secondary)
                 }
                 .buttonStyle(.plain)
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     if showBookTitle, let bookTitle = highlight.bookTitle {
                         if searchTerms.isEmpty {
                             Text(bookTitle)
@@ -66,10 +66,10 @@ struct HighlightRowView: View {
                         }
                         .font(.caption)
                         .buttonStyle(.plain)
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(AppColor.accent)
                     }
 
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.sm) {
                         if let location = highlight.location {
                             Text(location)
                         }
@@ -83,7 +83,7 @@ struct HighlightRowView: View {
                     .foregroundStyle(.secondary)
 
                     // Tags row
-                    HStack(spacing: 6) {
+                    HStack(spacing: Spacing.xs) {
                         Button {
                             showingTagPicker = true
                         } label: {
@@ -110,7 +110,7 @@ struct HighlightRowView: View {
                 }
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, Spacing.sm)
         .contextMenu {
             Button("Copy Highlight") {
                 Clipboard.copy(highlight.content)

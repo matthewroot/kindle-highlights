@@ -33,9 +33,10 @@ struct BookCoverView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size.width, height: size.height)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
+                .clipShape(RoundedRectangle(cornerRadius: CornerRadius.sm))
+                .subtleShadow()
         } else if isFetching {
-            RoundedRectangle(cornerRadius: 4)
+            RoundedRectangle(cornerRadius: CornerRadius.sm)
                 .fill(.quaternary)
                 .frame(width: size.width, height: size.height)
                 .opacity(shimmerOpacity)
@@ -45,13 +46,13 @@ struct BookCoverView: View {
                     }
                 }
         } else {
-            RoundedRectangle(cornerRadius: 4)
+            RoundedRectangle(cornerRadius: CornerRadius.sm)
                 .fill(.quaternary)
                 .frame(width: size.width, height: size.height)
                 .overlay {
                     Image(systemName: "book.closed")
                         .font(size == .small ? .caption : .title3)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColor.textTertiary)
                 }
         }
     }

@@ -6,7 +6,7 @@ struct TagChipView: View {
     var onRemove: (() -> Void)?
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.xs) {
             Text(tag.name)
                 .font(.caption)
                 .foregroundStyle(.white)
@@ -20,10 +20,11 @@ struct TagChipView: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
+        .padding(.horizontal, Spacing.sm)
+        .padding(.vertical, Spacing.xs)
         .background(tag.swiftUIColor)
         .clipShape(Capsule())
+        .subtleShadow()
     }
 }
 

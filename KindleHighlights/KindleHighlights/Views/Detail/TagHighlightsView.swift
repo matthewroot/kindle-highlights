@@ -35,6 +35,7 @@ struct TagHighlightsView: View {
                             externalTagPickerHighlightId: $tagPickerHighlightId
                         )
                         .tag(highlight.id)
+                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
                     }
                 }
                 .listStyle(.plain)

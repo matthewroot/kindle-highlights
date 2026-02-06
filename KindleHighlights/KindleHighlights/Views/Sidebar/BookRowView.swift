@@ -9,10 +9,10 @@ struct BookRowView: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.md) {
             BookCoverView(book: book, size: .small, isFetching: isFetchingCover)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(book.title)
                     .font(.headline)
                     .lineLimit(2)
@@ -29,7 +29,7 @@ struct BookRowView: View {
                     .foregroundStyle(.tertiary)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }
 

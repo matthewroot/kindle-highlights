@@ -18,7 +18,7 @@ struct TagPickerView: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Tags")
                 .font(.headline)
 
@@ -27,7 +27,7 @@ struct TagPickerView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 8) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: Spacing.sm) {
                     ForEach(allTags) { tag in
                         tagButton(for: tag)
                     }
@@ -46,7 +46,7 @@ struct TagPickerView: View {
                         .font(.caption)
                 }
                 .buttonStyle(.plain)
-                .foregroundStyle(.blue)
+                .foregroundStyle(AppColor.accent)
             }
 
             if let error = errorMessage {
@@ -68,7 +68,7 @@ struct TagPickerView: View {
         return Button {
             toggleTag(tag, isCurrentlySelected: isSelected)
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 if isSelected {
                     Image(systemName: "checkmark")
                         .font(.system(size: 10, weight: .bold))
@@ -78,8 +78,8 @@ struct TagPickerView: View {
             }
             .font(.caption)
             .foregroundStyle(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, Spacing.sm)
+            .padding(.vertical, Spacing.xs)
             .background(isSelected ? tag.swiftUIColor : tag.swiftUIColor.opacity(0.5))
             .clipShape(Capsule())
         }
@@ -87,16 +87,17 @@ struct TagPickerView: View {
     }
 
     private var newTagForm: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             TextField("Tag name", text: $newTagName)
                 .textFieldStyle(.roundedBorder)
                 .font(.caption)
 
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.xs) {
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
                         .fill(Color(hex: hex) ?? .gray)
                         .frame(width: 20, height: 20)
+                        .subtleShadow()
                         .overlay {
                             if newTagColor == hex {
                                 Image(systemName: "checkmark")

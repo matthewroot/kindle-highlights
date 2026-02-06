@@ -110,7 +110,7 @@ struct TagManagerView: View {
             }
             .buttonStyle(.plain)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     @ViewBuilder
@@ -139,15 +139,16 @@ struct TagManagerView: View {
     }
 
     private var newTagForm: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             TextField("Tag name", text: $newTagName)
                 .textFieldStyle(.roundedBorder)
 
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
                         .fill(Color(hex: hex) ?? .gray)
                         .frame(width: 24, height: 24)
+                        .subtleShadow()
                         .overlay {
                             if newTagColor == hex {
                                 Image(systemName: "checkmark")
@@ -243,18 +244,19 @@ struct TagEditSheet: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("Edit Tag")
                 .font(.headline)
 
             TextField("Tag name", text: $name)
                 .textFieldStyle(.roundedBorder)
 
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
                         .fill(Color(hex: hex) ?? .gray)
                         .frame(width: 24, height: 24)
+                        .subtleShadow()
                         .overlay {
                             if color == hex {
                                 Image(systemName: "checkmark")

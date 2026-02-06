@@ -28,7 +28,7 @@ struct BookListView: View {
                         .tag(SidebarSelection.tag(tag))
                     }
                 } header: {
-                    HStack(spacing: 6) {
+                    HStack(spacing: Spacing.xs) {
                         Text("Tags")
 
                         Button {

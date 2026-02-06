@@ -35,10 +35,10 @@ struct HighlightListView: View {
             } else {
                 List(selection: $selectedHighlightId) {
                     Section {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.md) {
                             BookCoverView(book: currentBook, size: .large, isFetching: isFetchingCover)
 
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: Spacing.xs) {
                                 Text(currentBook.title)
                                     .font(.title2)
                                     .fontWeight(.bold)
@@ -56,12 +56,12 @@ struct HighlightListView: View {
 
                             Spacer()
                         }
-                        .padding(.bottom, 12)
+                        .padding(.bottom, Spacing.md)
                         .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 16))
+                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
 
                         Divider()
-                            .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
+                            .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.xl))
                             .listRowSeparator(.hidden)
                     }
 
@@ -72,7 +72,7 @@ struct HighlightListView: View {
                             externalTagPickerHighlightId: $tagPickerHighlightId
                         )
                         .tag(highlight.id)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 16))
+                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
                     }
                 }
                 .listStyle(.plain)

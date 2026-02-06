@@ -48,17 +48,17 @@ struct ContentView: View {
         }
         .overlay {
             if isDropTargeted {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.blue, lineWidth: 3)
-                    .background(.blue.opacity(0.1))
+                RoundedRectangle(cornerRadius: CornerRadius.lg)
+                    .stroke(AppColor.accent, lineWidth: 3)
+                    .background(AppColor.accent.opacity(0.1))
                     .overlay {
-                        VStack(spacing: 8) {
+                        VStack(spacing: Spacing.sm) {
                             Image(systemName: "square.and.arrow.down")
                                 .font(.largeTitle)
                             Text("Drop My Clippings.txt to Import")
                                 .font(.headline)
                         }
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(AppColor.accent)
                     }
                     .allowsHitTesting(false)
             }
