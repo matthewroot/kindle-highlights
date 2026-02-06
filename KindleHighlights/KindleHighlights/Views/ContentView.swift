@@ -48,19 +48,42 @@ struct ContentView: View {
         }
         .overlay {
             if isDropTargeted {
-                RoundedRectangle(cornerRadius: CornerRadius.lg)
-                    .stroke(AppColor.accent, lineWidth: 3)
-                    .background(AppColor.accent.opacity(0.1))
-                    .overlay {
-                        VStack(spacing: Spacing.sm) {
+                ZStack {
+                    // Blurred background
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+
+                    // Content
+                    VStack(spacing: Spacing.lg) {
+                        ZStack {
+                            Circle()
+                                .fill(AppColor.accent.opacity(0.15))
+                                .frame(width: 80, height: 80)
+
                             Image(systemName: "square.and.arrow.down")
-                                .font(.largeTitle)
-                            Text("Drop My Clippings.txt to Import")
-                                .font(.headline)
+                                .font(.system(size: 32, weight: .medium))
+                                .foregroundStyle(AppColor.accent)
                         }
-                        .foregroundStyle(AppColor.accent)
+
+                        VStack(spacing: Spacing.xs) {
+                            Text("Drop to Import")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                            Text("My Clippings.txt")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
                     }
-                    .allowsHitTesting(false)
+                    .padding(Spacing.xxl)
+                    .glassBackground(cornerRadius: CornerRadius.lg)
+                    .elevatedShadow()
+
+                    // Border
+                    RoundedRectangle(cornerRadius: CornerRadius.lg)
+                        .strokeBorder(AppColor.accent.opacity(0.5), style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
+                        .padding(Spacing.lg)
+                }
+                .allowsHitTesting(false)
             }
         }
         .fileImporter(

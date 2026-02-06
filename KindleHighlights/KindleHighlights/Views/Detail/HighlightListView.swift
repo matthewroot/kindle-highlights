@@ -33,49 +33,35 @@ struct HighlightListView: View {
                     Text("This book has no highlights yet.")
                 }
             } else {
-                List(selection: $selectedHighlightId) {
-                    Section {
-                        HStack(spacing: Spacing.md) {
-                            BookCoverView(book: currentBook, size: .large, isFetching: isFetchingCover)
-
-                            VStack(alignment: .leading, spacing: Spacing.xs) {
-                                Text(currentBook.title)
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-
-                                if let author = currentBook.author {
-                                    Text(author)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-
-                                Text("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
-                                    .font(.caption)
-                                    .foregroundStyle(.tertiary)
-                            }
-
-                            Spacer()
-                        }
-                        .padding(.bottom, Spacing.md)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        // Hero book header
+                        bookHeader
+                            .padding(.horizontal, Spacing.xl)
+                            .padding(.top, Spacing.lg)
+                            .padding(.bottom, Spacing.xl)
 
                         Divider()
-                            .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.xl))
-                            .listRowSeparator(.hidden)
-                    }
+                            .padding(.horizontal, Spacing.xl)
 
-                    ForEach(highlights) { highlight in
-                        HighlightRowView(
-                            highlight: highlight,
-                            onToggleFavorite: { toggleFavorite(highlight) },
-                            externalTagPickerHighlightId: $tagPickerHighlightId
-                        )
-                        .tag(highlight.id)
-                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
+                        // Highlights list
+                        ForEach(highlights) { highlight in
+                            HighlightRowView(
+                                highlight: highlight,
+                                onToggleFavorite: { toggleFavorite(highlight) },
+                                externalTagPickerHighlightId: $tagPickerHighlightId
+                            )
+                            .padding(.horizontal, Spacing.lg)
+
+                            if highlight.id != highlights.last?.id {
+                                Divider()
+                                    .padding(.leading, Spacing.xxl + Spacing.xl)
+                                    .padding(.trailing, Spacing.xl)
+                            }
+                        }
                     }
+                    .padding(.bottom, Spacing.xl)
                 }
-                .listStyle(.plain)
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
                           let highlight = highlights.first(where: { $0.id == id }) else {
@@ -105,6 +91,53 @@ struct HighlightListView: View {
             loadHighlights()
         }
     }
+
+    // MARK: - Book Header
+
+    private var bookHeader: some View {
+        HStack(spacing: Spacing.lg) {
+            // Book cover with enhanced styling
+            BookCoverView(book: currentBook, size: .large, isFetching: isFetchingCover)
+
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Text(currentBook.title)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .lineLimit(3)
+
+                if let author = currentBook.author {
+                    Text(author)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+                    .frame(height: Spacing.xs)
+
+                // Highlight count badge
+                HStack(spacing: Spacing.xs) {
+                    Image(systemName: "text.quote")
+                        .font(.caption)
+                    Text("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                }
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, Spacing.sm)
+                .padding(.vertical, Spacing.xs)
+                .background {
+                    Capsule()
+                        .fill(.quaternary)
+                }
+            }
+
+            Spacer()
+        }
+        .padding(Spacing.lg)
+        .glassBackground(cornerRadius: CornerRadius.lg)
+    }
+
+    // MARK: - Actions
 
     private func loadHighlights() {
         errorMessage = nil

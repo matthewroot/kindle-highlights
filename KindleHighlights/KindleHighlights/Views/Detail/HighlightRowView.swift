@@ -12,6 +12,7 @@ struct HighlightRowView: View {
     @State private var isExpanded = false
     @State private var showingTagPicker = false
     @State private var currentTags: [Tag] = []
+    @State private var isHovered = false
 
     private var shouldTruncate: Bool {
         highlight.content.count > 300
@@ -25,53 +26,65 @@ struct HighlightRowView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(alignment: .top, spacing: Spacing.md) {
-                Button(action: onToggleFavorite) {
-                    Image(systemName: highlight.isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(highlight.isFavorite ? AppColor.favorite : .secondary)
-                }
-                .buttonStyle(.plain)
+        HStack(alignment: .top, spacing: 0) {
+            // Favorite accent bar
+            RoundedRectangle(cornerRadius: 2)
+                .fill(highlight.isFavorite ? AppColor.favorite : Color.clear)
+                .frame(width: 3)
+                .padding(.vertical, 4)
 
-                VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(alignment: .top, spacing: Spacing.md) {
+                // Favorite star
+                FavoriteStarView(isFavorite: highlight.isFavorite, action: onToggleFavorite)
+                    .padding(.top, 2)
+
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    // Book title (when shown)
                     if showBookTitle, let bookTitle = highlight.bookTitle {
                         if searchTerms.isEmpty {
                             Text(bookTitle)
                                 .font(.caption)
-                                .fontWeight(.medium)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
+                                .textCase(.uppercase)
+                                .tracking(0.5)
                         } else {
                             Text(TextHighlighter.highlight(text: bookTitle, terms: searchTerms))
                                 .font(.caption)
-                                .fontWeight(.medium)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
                         }
                     }
 
+                    // Quote content
                     if searchTerms.isEmpty {
                         Text(displayContent)
-                            .font(.body)
+                            .quoteStyle()
                             .textSelection(.enabled)
                     } else {
                         Text(TextHighlighter.highlight(text: displayContent, terms: searchTerms))
-                            .font(.body)
+                            .quoteStyle()
                             .textSelection(.enabled)
                     }
 
+                    // Show more/less button
                     if shouldTruncate {
                         Button(isExpanded ? "Show less" : "Show more") {
-                            withAnimation {
+                            withAnimation(.easeInOut(duration: 0.2)) {
                                 isExpanded.toggle()
                             }
                         }
                         .font(.caption)
+                        .fontWeight(.medium)
                         .buttonStyle(.plain)
                         .foregroundStyle(AppColor.accent)
                     }
 
+                    // Metadata row
                     HStack(spacing: Spacing.sm) {
                         if let location = highlight.location {
-                            Text(location)
+                            Label(location, systemImage: "book")
+                                .labelStyle(.titleOnly)
                         }
 
                         if let date = highlight.dateHighlighted {
@@ -80,16 +93,16 @@ struct HighlightRowView: View {
                         }
                     }
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.tertiary)
 
                     // Tags row
-                    HStack(spacing: Spacing.xs) {
+                    HStack(spacing: 6) {
                         Button {
                             showingTagPicker = true
                         } label: {
-                            Image(systemName: "plus.circle")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            Image(systemName: "tag")
+                                .font(.system(size: 11))
+                                .foregroundStyle(isHovered ? .secondary : .tertiary)
                         }
                         .buttonStyle(.plain)
                         .popover(isPresented: $showingTagPicker) {
@@ -109,8 +122,19 @@ struct HighlightRowView: View {
                     }
                 }
             }
+            .padding(.leading, Spacing.sm)
         }
-        .padding(.vertical, Spacing.sm)
+        .padding(.vertical, Spacing.md)
+        .padding(.horizontal, Spacing.xs)
+        .background {
+            RoundedRectangle(cornerRadius: CornerRadius.sm)
+                .fill(isHovered ? Color.primary.opacity(0.04) : Color.clear)
+        }
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isHovered = hovering
+            }
+        }
         .contextMenu {
             Button("Copy Highlight") {
                 Clipboard.copy(highlight.content)

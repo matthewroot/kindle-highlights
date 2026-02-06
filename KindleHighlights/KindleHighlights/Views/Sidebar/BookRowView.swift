@@ -12,24 +12,24 @@ struct BookRowView: View {
         HStack(spacing: Spacing.md) {
             BookCoverView(book: book, size: .small, isFetching: isFetchingCover)
 
-            VStack(alignment: .leading, spacing: Spacing.xs) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(book.title)
-                    .font(.headline)
+                    .font(.system(size: 13, weight: .semibold))
                     .lineLimit(2)
 
                 if let author = book.author {
                     Text(author)
-                        .font(.subheadline)
+                        .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
 
                 Text("\(book.highlightCount) highlight\(book.highlightCount == 1 ? "" : "s")")
-                    .font(.caption)
+                    .font(.system(size: 11))
                     .foregroundStyle(.tertiary)
             }
         }
-        .padding(.vertical, Spacing.xs)
+        .padding(.vertical, 6)
     }
 }
 

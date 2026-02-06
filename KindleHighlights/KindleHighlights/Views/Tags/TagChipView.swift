@@ -5,10 +5,12 @@ struct TagChipView: View {
     var showRemoveButton: Bool = false
     var onRemove: (() -> Void)?
 
+    @State private var isHovered = false
+
     var body: some View {
-        HStack(spacing: Spacing.xs) {
+        HStack(spacing: 4) {
             Text(tag.name)
-                .font(.caption)
+                .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.white)
 
             if showRemoveButton, let onRemove = onRemove {
@@ -20,11 +22,31 @@ struct TagChipView: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(.horizontal, Spacing.sm)
-        .padding(.vertical, Spacing.xs)
-        .background(tag.swiftUIColor)
-        .clipShape(Capsule())
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background {
+            Capsule()
+                .fill(tag.swiftUIColor.tagGradient())
+                .overlay {
+                    // Subtle inner highlight
+                    Capsule()
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [.white.opacity(0.25), .clear],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            ),
+                            lineWidth: 0.5
+                        )
+                }
+        }
+        .scaleEffect(isHovered ? 1.02 : 1.0)
         .subtleShadow()
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isHovered = hovering
+            }
+        }
     }
 }
 

@@ -18,7 +18,13 @@ struct SearchResultsView: View {
     var body: some View {
         Group {
             if isSearching {
-                ProgressView("Searching...")
+                VStack(spacing: Spacing.md) {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Searching...")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             } else if let error = errorMessage {
                 ContentUnavailableView {
                     Label("Error", systemImage: "exclamationmark.triangle")
@@ -32,21 +38,28 @@ struct SearchResultsView: View {
                     Text("No highlights match \"\(searchQuery)\"")
                 }
             } else {
-                List(selection: $selectedHighlightId) {
-                    ForEach(results) { highlight in
-                        HighlightRowView(
-                            highlight: highlight,
-                            onToggleFavorite: { onToggleFavorite(highlight) },
-                            onTagsChanged: { performSearchSync() },
-                            showBookTitle: true,
-                            searchTerms: searchTerms,
-                            externalTagPickerHighlightId: $tagPickerHighlightId
-                        )
-                        .tag(highlight.id)
-                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.xl, bottom: 0, trailing: Spacing.lg))
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(results) { highlight in
+                            HighlightRowView(
+                                highlight: highlight,
+                                onToggleFavorite: { onToggleFavorite(highlight) },
+                                onTagsChanged: { performSearchSync() },
+                                showBookTitle: true,
+                                searchTerms: searchTerms,
+                                externalTagPickerHighlightId: $tagPickerHighlightId
+                            )
+                            .padding(.horizontal, Spacing.lg)
+
+                            if highlight.id != results.last?.id {
+                                Divider()
+                                    .padding(.leading, Spacing.xxl + Spacing.xl)
+                                    .padding(.trailing, Spacing.xl)
+                            }
+                        }
                     }
+                    .padding(.vertical, Spacing.md)
                 }
-                .listStyle(.plain)
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
                           let highlight = results.first(where: { $0.id == id }) else {
@@ -84,8 +97,6 @@ struct SearchResultsView: View {
             return
         }
 
-        // 500ms debounce — .task(id:) cancels the previous call on each
-        // keystroke, so only the final pause actually reaches the query.
         do {
             try await Task.sleep(for: .milliseconds(200))
         } catch {

@@ -9,6 +9,7 @@ struct TagManagerView: View {
     @State private var newTagName = ""
     @State private var newTagColor = "#3B82F6"
     @State private var errorMessage: String?
+    @State private var hoveredTagId: Int64?
 
     private let colorOptions = [
         "#3B82F6", "#22C55E", "#EAB308", "#F97316",
@@ -85,32 +86,52 @@ struct TagManagerView: View {
     }
 
     private func tagRow(for tag: Tag) -> some View {
-        HStack {
+        let isHovered = hoveredTagId == tag.id
+
+        return HStack(spacing: Spacing.md) {
             Circle()
-                .fill(tag.swiftUIColor)
-                .frame(width: 12, height: 12)
+                .fill(tag.swiftUIColor.tagGradient())
+                .frame(width: 14, height: 14)
+                .overlay {
+                    Circle()
+                        .strokeBorder(.white.opacity(0.2), lineWidth: 0.5)
+                }
+                .subtleShadow()
 
             Text(tag.name)
+                .font(.system(size: 14))
 
             Spacer()
 
-            Button {
-                editingTag = tag
-            } label: {
-                Image(systemName: "pencil")
-                    .foregroundStyle(.secondary)
-            }
-            .buttonStyle(.plain)
+            HStack(spacing: Spacing.sm) {
+                Button {
+                    editingTag = tag
+                } label: {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .opacity(isHovered ? 1 : 0)
 
-            Button {
-                deletingTag = tag
-            } label: {
-                Image(systemName: "trash")
-                    .foregroundStyle(.red.opacity(0.7))
+                Button {
+                    deletingTag = tag
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.red.opacity(0.7))
+                }
+                .buttonStyle(.plain)
+                .opacity(isHovered ? 1 : 0)
             }
-            .buttonStyle(.plain)
         }
-        .padding(.vertical, Spacing.xs)
+        .padding(.vertical, 6)
+        .contentShape(Rectangle())
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                hoveredTagId = hovering ? tag.id : nil
+            }
+        }
     }
 
     @ViewBuilder
@@ -120,19 +141,21 @@ struct TagManagerView: View {
 
             if isCreatingTag {
                 newTagForm
-                    .padding()
+                    .padding(Spacing.lg)
             } else {
                 HStack {
                     Button {
                         isCreatingTag = true
                     } label: {
                         Label("New Tag", systemImage: "plus")
+                            .font(.system(size: 13, weight: .medium))
                     }
                     .buttonStyle(.plain)
+                    .foregroundStyle(AppColor.accent)
 
                     Spacer()
                 }
-                .padding()
+                .padding(Spacing.lg)
             }
         }
         .background(.bar)
@@ -142,23 +165,11 @@ struct TagManagerView: View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             TextField("Tag name", text: $newTagName)
                 .textFieldStyle(.roundedBorder)
+                .font(.system(size: 13))
 
-            HStack(spacing: Spacing.sm) {
+            HStack(spacing: 6) {
                 ForEach(colorOptions, id: \.self) { hex in
-                    Circle()
-                        .fill(Color(hex: hex) ?? .gray)
-                        .frame(width: 24, height: 24)
-                        .subtleShadow()
-                        .overlay {
-                            if newTagColor == hex {
-                                Image(systemName: "checkmark")
-                                    .font(.system(size: 12, weight: .bold))
-                                    .foregroundStyle(.white)
-                            }
-                        }
-                        .onTapGesture {
-                            newTagColor = hex
-                        }
+                    colorCircle(hex: hex, selectedColor: $newTagColor)
                 }
             }
 
@@ -168,6 +179,7 @@ struct TagManagerView: View {
                     newTagName = ""
                     newTagColor = "#3B82F6"
                 }
+                .font(.system(size: 12))
 
                 Spacer()
 
@@ -175,9 +187,34 @@ struct TagManagerView: View {
                     createTag()
                 }
                 .buttonStyle(.borderedProminent)
+                .controlSize(.small)
                 .disabled(newTagName.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
+    }
+
+    private func colorCircle(hex: String, selectedColor: Binding<String>) -> some View {
+        Circle()
+            .fill((Color(hex: hex) ?? .gray).tagGradient())
+            .frame(width: 24, height: 24)
+            .overlay {
+                if selectedColor.wrappedValue == hex {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+            }
+            .overlay {
+                Circle()
+                    .strokeBorder(.white.opacity(0.2), lineWidth: 0.5)
+            }
+            .scaleEffect(selectedColor.wrappedValue == hex ? 1.1 : 1.0)
+            .subtleShadow()
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    selectedColor.wrappedValue = hex
+                }
+            }
     }
 
     private func loadTags() {
@@ -250,28 +287,37 @@ struct TagEditSheet: View {
 
             TextField("Tag name", text: $name)
                 .textFieldStyle(.roundedBorder)
+                .font(.system(size: 13))
 
-            HStack(spacing: Spacing.sm) {
+            HStack(spacing: 6) {
                 ForEach(colorOptions, id: \.self) { hex in
                     Circle()
-                        .fill(Color(hex: hex) ?? .gray)
+                        .fill((Color(hex: hex) ?? .gray).tagGradient())
                         .frame(width: 24, height: 24)
-                        .subtleShadow()
                         .overlay {
                             if color == hex {
                                 Image(systemName: "checkmark")
-                                    .font(.system(size: 12, weight: .bold))
+                                    .font(.system(size: 11, weight: .bold))
                                     .foregroundStyle(.white)
                             }
                         }
+                        .overlay {
+                            Circle()
+                                .strokeBorder(.white.opacity(0.2), lineWidth: 0.5)
+                        }
+                        .scaleEffect(color == hex ? 1.1 : 1.0)
+                        .subtleShadow()
                         .onTapGesture {
-                            color = hex
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                color = hex
+                            }
                         }
                 }
             }
 
             HStack {
                 Button("Cancel", action: onCancel)
+                    .font(.system(size: 12))
 
                 Spacer()
 
@@ -279,11 +325,12 @@ struct TagEditSheet: View {
                     onSave(name.trimmingCharacters(in: .whitespaces), color)
                 }
                 .buttonStyle(.borderedProminent)
+                .controlSize(.small)
                 .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
-        .padding()
-        .frame(width: 300)
+        .padding(Spacing.xl)
+        .frame(width: 320)
     }
 }
 
