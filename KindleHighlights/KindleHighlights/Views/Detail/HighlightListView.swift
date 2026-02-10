@@ -37,12 +37,12 @@ struct HighlightListView: View {
                     LazyVStack(spacing: 0) {
                         // Hero book header
                         bookHeader
-                            .padding(.horizontal, Spacing.xl)
-                            .padding(.top, Spacing.lg)
-                            .padding(.bottom, Spacing.xl)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 16)
+                            .padding(.bottom, 20)
 
                         Divider()
-                            .padding(.horizontal, Spacing.xl)
+                            .padding(.horizontal, 20)
 
                         // Highlights list
                         ForEach(highlights) { highlight in
@@ -51,16 +51,15 @@ struct HighlightListView: View {
                                 onToggleFavorite: { toggleFavorite(highlight) },
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, Spacing.lg)
+                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.leading, Spacing.xxl + Spacing.xl)
-                                    .padding(.trailing, Spacing.xl)
+                                    .padding(.horizontal, 20)
                             }
                         }
                     }
-                    .padding(.bottom, Spacing.xl)
+                    .padding(.bottom, 20)
                 }
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
@@ -95,11 +94,10 @@ struct HighlightListView: View {
     // MARK: - Book Header
 
     private var bookHeader: some View {
-        HStack(spacing: Spacing.lg) {
-            // Book cover with enhanced styling
+        HStack(spacing: 16) {
             BookCoverView(book: currentBook, size: .large, isFetching: isFetchingCover)
 
-            VStack(alignment: .leading, spacing: Spacing.sm) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(currentBook.title)
                     .font(.title2)
                     .fontWeight(.bold)
@@ -112,10 +110,10 @@ struct HighlightListView: View {
                 }
 
                 Spacer()
-                    .frame(height: Spacing.xs)
+                    .frame(height: 4)
 
                 // Highlight count badge
-                HStack(spacing: Spacing.xs) {
+                HStack(spacing: 4) {
                     Image(systemName: "text.quote")
                         .font(.caption)
                     Text("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
@@ -123,8 +121,8 @@ struct HighlightListView: View {
                         .fontWeight(.medium)
                 }
                 .foregroundStyle(.secondary)
-                .padding(.horizontal, Spacing.sm)
-                .padding(.vertical, Spacing.xs)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
                 .background {
                     Capsule()
                         .fill(.quaternary)
@@ -133,8 +131,8 @@ struct HighlightListView: View {
 
             Spacer()
         }
-        .padding(Spacing.lg)
-        .glassBackground(cornerRadius: CornerRadius.lg)
+        .padding(16)
+        .glassBackground(cornerRadius: 12)
     }
 
     // MARK: - Actions

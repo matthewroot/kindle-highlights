@@ -34,16 +34,15 @@ struct FavoritesListView: View {
                                 showBookTitle: true,
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, Spacing.lg)
+                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.leading, Spacing.xxl + Spacing.xl)
-                                    .padding(.trailing, Spacing.xl)
+                                    .padding(.horizontal, 20)
                             }
                         }
                     }
-                    .padding(.vertical, Spacing.md)
+                    .padding(.vertical, 12)
                 }
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,

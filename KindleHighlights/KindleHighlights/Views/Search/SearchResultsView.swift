@@ -18,7 +18,7 @@ struct SearchResultsView: View {
     var body: some View {
         Group {
             if isSearching {
-                VStack(spacing: Spacing.md) {
+                VStack(spacing: 12) {
                     ProgressView()
                         .scaleEffect(0.8)
                     Text("Searching...")
@@ -49,16 +49,15 @@ struct SearchResultsView: View {
                                 searchTerms: searchTerms,
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, Spacing.lg)
+                            .padding(.horizontal, 12)
 
                             if highlight.id != results.last?.id {
                                 Divider()
-                                    .padding(.leading, Spacing.xxl + Spacing.xl)
-                                    .padding(.trailing, Spacing.xl)
+                                    .padding(.horizontal, 20)
                             }
                         }
                     }
-                    .padding(.vertical, Spacing.md)
+                    .padding(.vertical, 12)
                 }
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,

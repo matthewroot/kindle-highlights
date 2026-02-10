@@ -28,7 +28,7 @@ struct TagHighlightsView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         // Tag header
-                        HStack(spacing: Spacing.sm) {
+                        HStack(spacing: 8) {
                             Circle()
                                 .fill(tag.swiftUIColor)
                                 .frame(width: 12, height: 12)
@@ -39,11 +39,11 @@ struct TagHighlightsView: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
-                        .padding(.horizontal, Spacing.xl)
-                        .padding(.vertical, Spacing.md)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
 
                         Divider()
-                            .padding(.horizontal, Spacing.xl)
+                            .padding(.horizontal, 20)
 
                         ForEach(highlights) { highlight in
                             HighlightRowView(
@@ -53,16 +53,15 @@ struct TagHighlightsView: View {
                                 showBookTitle: true,
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, Spacing.lg)
+                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.leading, Spacing.xxl + Spacing.xl)
-                                    .padding(.trailing, Spacing.xl)
+                                    .padding(.horizontal, 20)
                             }
                         }
                     }
-                    .padding(.bottom, Spacing.xl)
+                    .padding(.bottom, 20)
                 }
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
