@@ -11,7 +11,7 @@ struct BookListView: View {
         List(selection: $selection) {
             Section {
                 Label("Favorites", systemImage: "star.fill")
-                    .foregroundStyle(.yellow)
+                    .foregroundStyle(AppColor.favorite)
                     .tag(SidebarSelection.favorites)
             }
 
@@ -22,13 +22,13 @@ struct BookListView: View {
                             Text(tag.name)
                         } icon: {
                             Circle()
-                                .fill(tag.swiftUIColor)
+                                .fill(tag.swiftUIColor.tagGradient())
                                 .frame(width: 10, height: 10)
                         }
                         .tag(SidebarSelection.tag(tag))
                     }
                 } header: {
-                    HStack(spacing: 6) {
+                    HStack(spacing: Spacing.xs) {
                         Text("Tags")
 
                         Button {

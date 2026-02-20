@@ -25,19 +25,45 @@ struct TagHighlightsView: View {
                     Text("No highlights have this tag yet.")
                 }
             } else {
-                List(selection: $selectedHighlightId) {
-                    ForEach(highlights) { highlight in
-                        HighlightRowView(
-                            highlight: highlight,
-                            onToggleFavorite: { toggleFavorite(highlight) },
-                            onTagsChanged: { loadHighlights() },
-                            showBookTitle: true,
-                            externalTagPickerHighlightId: $tagPickerHighlightId
-                        )
-                        .tag(highlight.id)
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        // Tag header
+                        HStack(spacing: 8) {
+                            Circle()
+                                .fill(tag.swiftUIColor)
+                                .frame(width: 12, height: 12)
+                            Text(tag.name)
+                                .font(.headline)
+                            Spacer()
+                            Text("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+
+                        Divider()
+                            .padding(.horizontal, 16)
+
+                        ForEach(highlights) { highlight in
+                            HighlightRowView(
+                                highlight: highlight,
+                                onToggleFavorite: { toggleFavorite(highlight) },
+                                onTagsChanged: { loadHighlights() },
+                                showBookTitle: true,
+                                externalTagPickerHighlightId: $tagPickerHighlightId
+                            )
+
+                            if highlight.id != highlights.last?.id {
+                                Divider()
+                                    .padding(.horizontal, 16)
+                            }
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, 20)
                 }
-                .listStyle(.plain)
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
                           let highlight = highlights.first(where: { $0.id == id }) else {
@@ -63,7 +89,6 @@ struct TagHighlightsView: View {
             }
         }
         .navigationTitle(tag.name)
-        .navigationSubtitle("\(highlights.count) highlight\(highlights.count == 1 ? "" : "s")")
         .task(id: tag.id) {
             loadHighlights()
             hasLoaded = true

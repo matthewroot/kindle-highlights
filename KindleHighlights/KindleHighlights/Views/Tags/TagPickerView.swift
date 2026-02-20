@@ -18,7 +18,7 @@ struct TagPickerView: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Tags")
                 .font(.headline)
 
@@ -43,10 +43,10 @@ struct TagPickerView: View {
                     isCreatingTag = true
                 } label: {
                     Label("New Tag", systemImage: "plus")
-                        .font(.caption)
+                        .font(.system(size: 12, weight: .medium))
                 }
                 .buttonStyle(.plain)
-                .foregroundStyle(.blue)
+                .foregroundStyle(AppColor.accent)
             }
 
             if let error = errorMessage {
@@ -55,8 +55,8 @@ struct TagPickerView: View {
                     .foregroundStyle(.red)
             }
         }
-        .padding()
-        .frame(width: 260)
+        .padding(Spacing.lg)
+        .frame(width: 280)
         .onAppear {
             loadTags()
         }
@@ -66,47 +66,40 @@ struct TagPickerView: View {
         let isSelected = currentTags.contains(where: { $0.id == tag.id })
 
         return Button {
-            toggleTag(tag, isCurrentlySelected: isSelected)
+            withAnimation(.easeInOut(duration: 0.15)) {
+                toggleTag(tag, isCurrentlySelected: isSelected)
+            }
         } label: {
             HStack(spacing: 4) {
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.system(size: 9, weight: .bold))
                 }
                 Text(tag.name)
                     .lineLimit(1)
             }
-            .font(.caption)
+            .font(.system(size: 11, weight: .medium))
             .foregroundStyle(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(isSelected ? tag.swiftUIColor : tag.swiftUIColor.opacity(0.5))
-            .clipShape(Capsule())
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background {
+                Capsule()
+                    .fill(tag.swiftUIColor.tagGradient())
+                    .opacity(isSelected ? 1.0 : 0.5)
+            }
         }
         .buttonStyle(.plain)
     }
 
     private var newTagForm: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             TextField("Tag name", text: $newTagName)
                 .textFieldStyle(.roundedBorder)
-                .font(.caption)
+                .font(.system(size: 13))
 
             HStack(spacing: 6) {
                 ForEach(colorOptions, id: \.self) { hex in
-                    Circle()
-                        .fill(Color(hex: hex) ?? .gray)
-                        .frame(width: 20, height: 20)
-                        .overlay {
-                            if newTagColor == hex {
-                                Image(systemName: "checkmark")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundStyle(.white)
-                            }
-                        }
-                        .onTapGesture {
-                            newTagColor = hex
-                        }
+                    colorCircle(hex: hex)
                 }
             }
 
@@ -117,7 +110,7 @@ struct TagPickerView: View {
                     newTagColor = "#3B82F6"
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.system(size: 12))
 
                 Spacer()
 
@@ -129,6 +122,30 @@ struct TagPickerView: View {
                 .disabled(newTagName.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
+    }
+
+    private func colorCircle(hex: String) -> some View {
+        Circle()
+            .fill((Color(hex: hex) ?? .gray).tagGradient())
+            .frame(width: 22, height: 22)
+            .overlay {
+                if newTagColor == hex {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+            }
+            .overlay {
+                Circle()
+                    .strokeBorder(.white.opacity(0.2), lineWidth: 0.5)
+            }
+            .scaleEffect(newTagColor == hex ? 1.1 : 1.0)
+            .subtleShadow()
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    newTagColor = hex
+                }
+            }
     }
 
     private func loadTags() {

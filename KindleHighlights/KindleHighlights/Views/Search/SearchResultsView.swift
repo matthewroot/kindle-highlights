@@ -18,7 +18,13 @@ struct SearchResultsView: View {
     var body: some View {
         Group {
             if isSearching {
-                ProgressView("Searching...")
+                VStack(spacing: 12) {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Searching...")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             } else if let error = errorMessage {
                 ContentUnavailableView {
                     Label("Error", systemImage: "exclamationmark.triangle")
@@ -32,20 +38,27 @@ struct SearchResultsView: View {
                     Text("No highlights match \"\(searchQuery)\"")
                 }
             } else {
-                List(selection: $selectedHighlightId) {
-                    ForEach(results) { highlight in
-                        HighlightRowView(
-                            highlight: highlight,
-                            onToggleFavorite: { onToggleFavorite(highlight) },
-                            onTagsChanged: { performSearchSync() },
-                            showBookTitle: true,
-                            searchTerms: searchTerms,
-                            externalTagPickerHighlightId: $tagPickerHighlightId
-                        )
-                        .tag(highlight.id)
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(results) { highlight in
+                            HighlightRowView(
+                                highlight: highlight,
+                                onToggleFavorite: { onToggleFavorite(highlight) },
+                                onTagsChanged: { performSearchSync() },
+                                showBookTitle: true,
+                                searchTerms: searchTerms,
+                                externalTagPickerHighlightId: $tagPickerHighlightId
+                            )
+
+                            if highlight.id != results.last?.id {
+                                Divider()
+                                    .padding(.horizontal, 16)
+                            }
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 8)
                 }
-                .listStyle(.plain)
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
                           let highlight = results.first(where: { $0.id == id }) else {
@@ -83,8 +96,6 @@ struct SearchResultsView: View {
             return
         }
 
-        // 500ms debounce — .task(id:) cancels the previous call on each
-        // keystroke, so only the final pause actually reaches the query.
         do {
             try await Task.sleep(for: .milliseconds(200))
         } catch {

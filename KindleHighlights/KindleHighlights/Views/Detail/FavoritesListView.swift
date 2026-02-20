@@ -24,19 +24,26 @@ struct FavoritesListView: View {
                     Text("Star highlights to add them to your favorites.")
                 }
             } else {
-                List(selection: $selectedHighlightId) {
-                    ForEach(highlights) { highlight in
-                        HighlightRowView(
-                            highlight: highlight,
-                            onToggleFavorite: { toggleFavorite(highlight) },
-                            onTagsChanged: { loadFavoritesSync() },
-                            showBookTitle: true,
-                            externalTagPickerHighlightId: $tagPickerHighlightId
-                        )
-                        .tag(highlight.id)
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(highlights) { highlight in
+                            HighlightRowView(
+                                highlight: highlight,
+                                onToggleFavorite: { toggleFavorite(highlight) },
+                                onTagsChanged: { loadFavoritesSync() },
+                                showBookTitle: true,
+                                externalTagPickerHighlightId: $tagPickerHighlightId
+                            )
+
+                            if highlight.id != highlights.last?.id {
+                                Divider()
+                                    .padding(.horizontal, 16)
+                            }
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 8)
                 }
-                .listStyle(.plain)
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,
                           let highlight = highlights.first(where: { $0.id == id }) else {

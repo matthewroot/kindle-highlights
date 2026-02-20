@@ -9,27 +9,27 @@ struct BookRowView: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.md) {
             BookCoverView(book: book, size: .small, isFetching: isFetchingCover)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(book.title)
-                    .font(.headline)
+                    .font(.system(size: 13, weight: .semibold))
                     .lineLimit(2)
 
                 if let author = book.author {
                     Text(author)
-                        .font(.subheadline)
+                        .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
 
                 Text("\(book.highlightCount) highlight\(book.highlightCount == 1 ? "" : "s")")
-                    .font(.caption)
+                    .font(.system(size: 11))
                     .foregroundStyle(.tertiary)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
     }
 }
 
