@@ -316,6 +316,39 @@ Gray:    #6B7280
 27. [x] Fix Cmd+I menu bar shortcut (was not wired up)
 28. [x] Eliminate empty state flash on view transitions
 
+### Phase 6: UI Polish ✅
+29. [x] Create centralized design system (`DesignTokens.swift`)
+    - Spacing, corner radius, and color tokens
+    - Shadow modifiers (subtle, card, elevated)
+    - Glass background modifier
+    - Hover highlight modifier
+30. [x] Modernize highlight rows
+    - Serif typography for quote text
+    - Animated favorite star with glow effect
+    - Hover states with subtle background
+31. [x] Enhance book covers
+    - Gradient overlay for depth
+    - Inner highlight stroke
+    - Improved shadows
+    - Better shimmer loading animation
+32. [x] Refine tag chips
+    - Gradient backgrounds
+    - Inner highlight stroke
+    - Hover scale effect
+33. [x] Update book header in highlight list
+    - Glass material background card
+    - Highlight count badge
+34. [x] Modernize drop overlay
+    - Blurred material background
+    - Dashed border styling
+    - Icon badge
+35. [x] Polish tag picker and manager
+    - Gradient color circles with scale animation
+    - Reveal edit/delete on hover
+36. [x] Consistent layout alignment
+    - Left-aligned highlight rows across all views
+    - Consistent padding and divider placement
+
 ---
 
 ## Configuration
