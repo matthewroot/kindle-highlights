@@ -25,7 +25,7 @@ struct FavoritesListView: View {
                 }
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 0) {
+                    LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(highlights) { highlight in
                             HighlightRowView(
                                 highlight: highlight,
@@ -34,15 +34,15 @@ struct FavoritesListView: View {
                                 showBookTitle: true,
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.horizontal, 20)
+                                    .padding(.horizontal, 16)
                             }
                         }
                     }
-                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 8)
                 }
                 .onKeyPress("f") {
                     guard let id = selectedHighlightId,

@@ -26,7 +26,7 @@ struct TagHighlightsView: View {
                 }
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 0) {
+                    LazyVStack(alignment: .leading, spacing: 0) {
                         // Tag header
                         HStack(spacing: 8) {
                             Circle()
@@ -39,11 +39,12 @@ struct TagHighlightsView: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
-                        .padding(.horizontal, 20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
                         .padding(.vertical, 12)
 
                         Divider()
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 16)
 
                         ForEach(highlights) { highlight in
                             HighlightRowView(
@@ -53,14 +54,14 @@ struct TagHighlightsView: View {
                                 showBookTitle: true,
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.horizontal, 20)
+                                    .padding(.horizontal, 16)
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 20)
                 }
                 .onKeyPress("f") {

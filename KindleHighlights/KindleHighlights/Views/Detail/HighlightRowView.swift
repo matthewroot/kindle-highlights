@@ -113,9 +113,12 @@ struct HighlightRowView: View {
                     }
                 }
             }
+
+            Spacer(minLength: 0)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 12)
-        .padding(.horizontal, 8)
+        .padding(.horizontal, 16)
         .background {
             RoundedRectangle(cornerRadius: 8)
                 .fill(isHovered ? Color.primary.opacity(0.04) : Color.clear)
@@ -161,7 +164,7 @@ struct HighlightRowView: View {
 }
 
 #Preview {
-    List {
+    VStack {
         HighlightRowView(
             highlight: Highlight(
                 id: 1,
@@ -180,9 +183,9 @@ struct HighlightRowView: View {
             highlight: Highlight(
                 id: 2,
                 bookId: 1,
-                content: "This is a much longer highlight that should be truncated because it contains more than 300 characters. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.",
+                content: "This is a much longer highlight that should be truncated.",
                 location: "Location 567-589",
-                dateHighlighted: Date().addingTimeInterval(-86400 * 30),
+                dateHighlighted: Date(),
                 dateImported: Date(),
                 isFavorite: true,
                 contentHash: "def456"

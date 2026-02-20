@@ -34,15 +34,15 @@ struct HighlightListView: View {
                 }
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 0) {
+                    LazyVStack(alignment: .leading, spacing: 0) {
                         // Hero book header
                         bookHeader
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 16)
                             .padding(.top, 16)
                             .padding(.bottom, 20)
 
                         Divider()
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 16)
 
                         // Highlights list
                         ForEach(highlights) { highlight in
@@ -51,14 +51,14 @@ struct HighlightListView: View {
                                 onToggleFavorite: { toggleFavorite(highlight) },
                                 externalTagPickerHighlightId: $tagPickerHighlightId
                             )
-                            .padding(.horizontal, 12)
 
                             if highlight.id != highlights.last?.id {
                                 Divider()
-                                    .padding(.horizontal, 20)
+                                    .padding(.horizontal, 16)
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 20)
                 }
                 .onKeyPress("f") {
@@ -132,6 +132,7 @@ struct HighlightListView: View {
             Spacer()
         }
         .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .glassBackground(cornerRadius: 12)
     }
 
